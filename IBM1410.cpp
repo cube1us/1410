@@ -1,4 +1,4 @@
-/* 
+/*
  *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -20,34 +20,17 @@
 #include <vcl\vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
-USEFORM("UI14101.cpp", FI14101);
-USERES("PIBM1410.res");
-USEFORM("UI1415IO.cpp", FI1415IO);
-USEUNIT("ubcd.cpp");
-USEFORM("UI1415L.cpp", F1415L);
-USEUNIT("UI1410CPUT.cpp");
-USEUNIT("UI1410CPU.cpp");
-USEFORM("UI1410PWR.cpp", FI1410PWR);
-USEFORM("UI1410DEBUG.cpp", F1410Debug);
-USEFORM("UI1415CE.cpp", FI1415CE);
-USEUNIT("UI1410INST.cpp");
-USEUNIT("UI1410ARITH.cpp");
-USEFILE("NOTE1410.TXT");
-USEUNIT("UI1410DATA.cpp");
-USEUNIT("UI1410BRANCH.cpp");
-USEUNIT("UI1410MISC.cpp");
-USEUNIT("UI1410CHANNEL.cpp");
-USEUNIT("UITAPEUNIT.cpp");
-USEUNIT("UITAPETAU.cpp");
+USEFORM("UERROR.cpp", FError);
 USEFORM("UI729TAPE.cpp", FI729);
-USEFORM("UI1403.cpp", FI1403);
-USEUNIT("UIPRINTER.cpp");
 USEFORM("UI1402.cpp", FI1402);
-USEUNIT("UIREADER.cpp");
-USEUNIT("UIHOPPER.cpp");
-USEUNIT("UIPUNCH.cpp");
+USEFORM("UI1403.cpp", FI1403);
+USEFORM("UI1410DEBUG.cpp", F1410Debug);
+USEFORM("UI1410PWR.cpp", FI1410PWR);
+USEFORM("UI1415CE.cpp", FI1415CE);
+USEFORM("UI1415IO.cpp", FI1415IO);
+USEFORM("UI1415L.cpp", F1415L);
+USEFORM("UI14101.cpp", FI14101);
 //---------------------------------------------------------------------------
-
 #include <dir.h>
 #include <stdio.h>
 
@@ -68,15 +51,22 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	{
 		Application->Initialize();
 		Application->CreateForm(__classid(TFI14101), &FI14101);
-        Application->CreateForm(__classid(TF1410Debug), &F1410Debug);
-        Application->CreateForm(__classid(TFI1415IO), &FI1415IO);
-        Application->CreateForm(__classid(TF1415L), &F1415L);
-        Application->CreateForm(__classid(TFI1410PWR), &FI1410PWR);
-        Application->CreateForm(__classid(TFI1415CE), &FI1415CE);
-        Application->CreateForm(__classid(TFI729), &FI729);
-        Application->CreateForm(__classid(TFI1403), &FI1403);
-        Application->CreateForm(__classid(TFI1402), &FI1402);
-        Init1410();
+		Application->CreateForm(__classid(TF1410Debug), &F1410Debug);
+		Application->CreateForm(__classid(TFI1415IO), &FI1415IO);
+		Application->CreateForm(__classid(TF1415L), &F1415L);
+		Application->CreateForm(__classid(TFI1410PWR), &FI1410PWR);
+		Application->CreateForm(__classid(TFI1415CE), &FI1415CE);
+		Application->CreateForm(__classid(TFI729), &FI729);
+		Application->CreateForm(__classid(TFI1403), &FI1403);
+		Application->CreateForm(__classid(TFI1402), &FI1402);
+		Application->CreateForm(__classid(TFError), &FError);
+		Application->CreateForm(__classid(TFI729), &FI729);
+		Application->CreateForm(__classid(TFI1402), &FI1402);
+		Application->CreateForm(__classid(TF1410Debug), &F1410Debug);
+		Application->CreateForm(__classid(TFI1415IO), &FI1415IO);
+		Application->CreateForm(__classid(TF1415L), &F1415L);
+		Application->CreateForm(__classid(TFI14101), &FI14101);
+		Init1410();
 
 		Application->Run();
 	}

@@ -122,6 +122,136 @@
         <CppCompile Include="IBM1410.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ubcd.cpp">
+            <DependentOn>ubcd.h</DependentOn>
+            <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UERROR.cpp">
+            <Form>FError</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UERROR.h</DependentOn>
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1402.cpp">
+            <Form>FI1402</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI1402.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1403.cpp">
+            <Form>FI1403</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI1403.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI14101.cpp">
+            <Form>FI14101</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI14101.h</DependentOn>
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410ARITH.cpp">
+            <DependentOn>UI1410ARITH.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410BRANCH.cpp">
+            <DependentOn>UI1410BRANCH.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410CHANNEL.cpp">
+            <DependentOn>UI1410CHANNEL.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410CPU.cpp">
+            <DependentOn>UI1410CPU.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410CPUT.cpp">
+            <DependentOn>UI1410CPUT.h</DependentOn>
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410DATA.cpp">
+            <DependentOn>UI1410DATA.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410DEBUG.cpp">
+            <Form>F1410Debug</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI1410DEBUG.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410INST.cpp">
+            <DependentOn>UI1410INST.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410MISC.cpp">
+            <DependentOn>UI1410MISC.h</DependentOn>
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1410PWR.cpp">
+            <Form>FI1410PWR</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI1410PWR.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1415CE.cpp">
+            <Form>FI1415CE</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI1415CE.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1415IO.cpp">
+            <Form>FI1415IO</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI1415IO.h</DependentOn>
+            <BuildOrder>17</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI1415L.cpp">
+            <Form>F1415L</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI1415L.h</DependentOn>
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UI729TAPE.cpp">
+            <Form>FI729</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>UI729TAPE.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UIHOPPER.cpp">
+            <DependentOn>UIHOPPER.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UIPRINTER.cpp">
+            <DependentOn>UIPRINTER.h</DependentOn>
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UIPUNCH.cpp">
+            <DependentOn>UIPUNCH.h</DependentOn>
+            <BuildOrder>22</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UIREADER.cpp">
+            <DependentOn>UIREADER.h</DependentOn>
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UITAPETAU.cpp">
+            <DependentOn>UITAPETAU.h</DependentOn>
+            <BuildOrder>24</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="UITAPEUNIT.cpp">
+            <DependentOn>UITAPEUNIT.h</DependentOn>
+            <BuildOrder>25</BuildOrder>
+        </CppCompile>
+        <FormResources Include="UERROR.dfm"/>
+        <FormResources Include="UI729TAPE.dfm"/>
+        <FormResources Include="UI1402.dfm"/>
+        <FormResources Include="UI1403.dfm"/>
+        <FormResources Include="UI1410DEBUG.dfm"/>
+        <FormResources Include="UI1410PWR.dfm"/>
+        <FormResources Include="UI1415CE.dfm"/>
+        <FormResources Include="UI1415IO.dfm"/>
+        <FormResources Include="UI1415L.dfm"/>
+        <FormResources Include="UI14101.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

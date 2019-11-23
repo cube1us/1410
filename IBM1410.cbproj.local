@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2019/11/23 09:22:19.000.052,=D:\Users\jay\EmbarcaderoStudioProjects\Project1PCH1.h</Transaction>
     <Transaction>2019/11/23 09:22:19.000.147,=D:\Users\jay\EmbarcaderoStudioProjects\Unit1.cpp</Transaction>
     <Transaction>2019/11/23 09:22:28.000.100,D:\Users\jay\EmbarcaderoStudioProjects\Project1PCH1.h=D:\Users\jay\EmbarcaderoStudioProjects\IBM1410PCH1.h</Transaction>
     <Transaction>2019/11/23 09:22:28.000.103,D:\Users\jay\EmbarcaderoStudioProjects\Project1.cbproj=D:\Users\jay\EmbarcaderoStudioProjects\IBM1410.cbproj</Transaction>
     <Transaction>2019/11/23 09:23:22.000.580,D:\Users\jay\EmbarcaderoStudioProjects\IBM1410.cbproj=D:\Users\jay\EmbarcaderoStudioProjects\1410\IBM1410.cbproj</Transaction>
+    <Transaction>2019/11/23 09:45:46.000.661,=D:\Users\jay\EmbarcaderoStudioProjects\1410\UI729TAPE.cpp</Transaction>
+    <Transaction>2019/11/23 09:45:46.000.781,=D:\Users\jay\EmbarcaderoStudioProjects\1410\UI1410BRANCH.cpp</Transaction>
+    <Transaction>2019/11/23 09:45:46.000.882,=D:\Users\jay\EmbarcaderoStudioProjects\1410\UI1410INST.cpp</Transaction>
+    <Transaction>2019/11/23 09:45:47.000.192,=D:\Users\jay\EmbarcaderoStudioProjects\1410\UIHOPPER.cpp</Transaction>
   </Transactions>
 </BorlandProject>
