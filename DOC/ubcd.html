@@ -1,0 +1,442 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>UBCD - BCD Character Definitions and Utilities</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<h1 align="center">UBCD BCD Character Definitions and Utilities </h1>
+
+<hr>
+
+<p>Module UBCD provides support for the BCD character set with
+types, classes, manifest constants and utilities. </p>
+
+<p>Implements two classes:</p>
+
+<ul>
+    <li><a href="#BCD">Class BCD</a></li>
+    <li><a href="#TWOOF5">Class TWOOF5</a></li>
+</ul>
+
+<h2><a name="Constants">Constants </a></h2>
+
+<h3>Manifest Constants</h3>
+
+<table border="2">
+    <tr>
+        <td>BITWM, BIT1, BIT2, BIT4, BIT8, BITC, BITB, BITC</td>
+        <td>Bits of a character</td>
+    </tr>
+    <tr>
+        <td>BIT_NUM</td>
+        <td>Numeric bits (Mask)</td>
+    </tr>
+    <tr>
+        <td>BIT_ZONE</td>
+        <td>Zone bits (Mask) </td>
+    </tr>
+</table>
+
+<h3>ASCII equivalents </h3>
+
+<p>(of certain BCD characters, used in console module )</p>
+
+<ul>
+    <li>ASCII_RECORD_MARK</li>
+    <li>ASCII_GROUP_MARK</li>
+    <li>ASCII_SEGMENT_MARK</li>
+    <li>ASCII_RADICAL</li>
+    <li>ASCII_ATL_BLANK</li>
+    <li>ASCII_WORD_SEPARATOR</li>
+    <li>ASCII_DELTA </li>
+</ul>
+
+<h2><a name="Contstant_data">Constant data </a></h2>
+
+<p>WARNING: These tables are MUCH too visible in the simulator.
+Most of these will become PRIVATE or PROTECTED in the future
+someday! </p>
+
+<table border="2">
+    <tr>
+        <td width="30%">char bcd_ascii[64]</td>
+        <td>Translates a BCD character to ASCII</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="30%">int ascii_bcd[256]</td>
+        <td>Translates ASCII to BCD (-1 if invalid ASCII)</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="30%">int bcd_to_two_of_five_table[64]</td>
+        <td>Translates BCD numerics to 2 out of 5 code</td>
+        <td>WM must be clear, ODD parity INCLUDING Check bit
+        required. The &quot;0&quot; bit in 2 out of 5 notation is
+        the 0x10 bit in this table </td>
+    </tr>
+    <tr>
+        <td width="30%">int two_of_five_to_bin_table[32]</td>
+        <td>Translates 2 out of 5 code to binary</td>
+        <td>-1 indicates an invalid 2 out of 5 code input </td>
+    </tr>
+    <tr>
+        <td width="30%">int bin_to_two_of_five_table[10]</td>
+        <td>Translates 0-9 (binary) to 2 out of 5 code </td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="30%">int parity_table[256]</td>
+        <td>1 if odd parity</td>
+        <td>Check bit ignored. WM bit included</td>
+    </tr>
+    <tr>
+        <td width="30%">int odd_parity_table[256]</td>
+        <td>1 if odd parity</td>
+        <td>Check Bit and WM included</td>
+    </tr>
+    <tr>
+        <td width="30%">enum bcd_char_type</td>
+        <td>BCD_NN<br>
+        BCD_SC: <br>
+        BCD_AN: </td>
+        <td>Not alphanumberic or special<br>
+        Special character<br>
+        Alphanumeric (letter or number) </td>
+    </tr>
+</table>
+
+<h2><a name="CLASSES">CLASSES</a></h2>
+
+<h3><a name="BCD">CLASS BCD</a></h3>
+
+<blockquote>
+    <p>Contains a single BCD character. Used all over the
+    simulator, including memory. </p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: Object </p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructors</h4>
+    <table border="1">
+        <tr>
+            <td>BCD()</td>
+            <td>Initializes to 0</td>
+        </tr>
+        <tr>
+            <td>BCD(int i)</td>
+            <td>Initializes to BCD character with binary value i </td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Static Methods (utilities) </h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>BCDConvert(int ch)</td>
+            <td>Returns binary value of BCD equivalent of an
+            ASCII character.</td>
+            <td>Returns binary equivalent of BCD alternate blank
+            if ASCII character does not convert.</td>
+        </tr>
+        <tr>
+            <td>BCDCheck(int ch)</td>
+            <td>Returns binary value of BCD equivalent of an
+            ASCII character</td>
+            <td>Returns -1 if ASCII character does not convert. </td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td>Set(int i)</td>
+            <td>Sets to BCD character with binary value i</td>
+        </tr>
+        <tr>
+            <td>char ToAscii()</td>
+            <td>Returns ASCII equivalent of current BCD character</td>
+        </tr>
+        <tr>
+            <td>int ToInt()</td>
+            <td>Returns binary value of BCD character</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>bool IsMinus()</td>
+            <td>True if zones indicates a negative number (B
+            Zone)</td>
+        </tr>
+        <tr>
+            <td>bool TestWM()</td>
+            <td>True if WM bit set</td>
+        </tr>
+        <tr>
+            <td>bool TestCheck()</td>
+            <td>True if Check bit set</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>void SetWM()</td>
+            <td>Sets WM bit</td>
+        </tr>
+        <tr>
+            <td>void ClearWM() </td>
+            <td>Clears WM bit</td>
+        </tr>
+        <tr>
+            <td>void SetCheck()</td>
+            <td>Sets Check bit</td>
+        </tr>
+        <tr>
+            <td>void ComplementCheck()</td>
+            <td>Flips Check bit</td>
+        </tr>
+        <tr>
+            <td>void ClearCheck()</td>
+            <td>Clears Check bit </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>bool CheckParity</td>
+            <td>True if character has proper odd parity</td>
+        </tr>
+        <tr>
+            <td>bool SetOddParity</td>
+            <td>Sets Check bit to force odd parity</td>
+        </tr>
+        <tr>
+            <td>int GetParity()</td>
+            <td>1 if character is odd parity (ignores check bit)</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>BCD operator&amp;(BCD)</td>
+            <td>Bitwise AND</td>
+        </tr>
+        <tr>
+            <td>BCD operator&amp;(int)</td>
+            <td>Bitwise AND with a binary value</td>
+        </tr>
+        <tr>
+            <td>BCD operator|(BCD) </td>
+            <td>Bitwise OR</td>
+        </tr>
+        <tr>
+            <td>BCD operator|(int) </td>
+            <td>Bitwise OR with a binary value</td>
+        </tr>
+        <tr>
+            <td>BCD operator&lt;&lt;(int) </td>
+            <td>Bitwise left shift &quot;int&quot; bits</td>
+        </tr>
+        <tr>
+            <td>BCD operator&gt;&gt;(int)</td>
+            <td>Bitwise right shift &quot;int&quot; bits</td>
+        </tr>
+        <tr>
+            <td>bool operator==(BCD) </td>
+            <td>True if the same BCD value</td>
+        </tr>
+        <tr>
+            <td>bool operator!=(BCD)</td>
+            <td>True if not the same BCD value</td>
+        </tr>
+        <tr>
+            <td>bool operator==(int)</td>
+            <td>True if BCD char has a given binary value</td>
+        </tr>
+        <tr>
+            <td>bool operator!=(int)</td>
+            <td>True if BCD char does not have a given binary val
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>enum bcd_char_type GetType()</td>
+            <td>Returns type (see enum) of BCD char </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+</blockquote>
+
+<h3><a name="TWOOF5">CLASS TWOOF5 </a></h3>
+
+<blockquote>
+    <p>Contains 2 out of 5 code. Used in registers of 1410 </p>
+</blockquote>
+
+<blockquote>
+    <p>The bits are coded in binary, as follows </p>
+    <table border="1">
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>TWOOF5_1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2</td>
+            <td>TWOOF5_2</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>4</td>
+            <td>TWOOF5_4</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>8</td>
+            <td>TWOOF5_8</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>16</td>
+            <td>TWPPF5_0</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <p>Binary values are encoded in such a way as any binary
+    value is represented by exactly two of the above values. The
+    table below shows, for each binary number, the decimal value
+    stored in the simulator, and the equivalent 2 out of 5 code
+    bit coding.</p>
+    <table border="1">
+        <tr>
+            <td>0</td>
+            <td>10</td>
+            <td>2+8</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>17</td>
+            <td>0+1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>18</td>
+            <td>0+2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>3</td>
+            <td>1+2</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>20</td>
+            <td>0+4</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>1+4</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>6</td>
+            <td>2+4</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>12</td>
+            <td>4+8</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>24</td>
+            <td>0+8</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>9</td>
+            <td>1+8</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: Object </p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructors</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TWOOF5()</td>
+            <td>Initializes to INVALID 2 out of 5 code!</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>TWOOF5(BCD) </td>
+            <td>Converts BCD character to two out of 5 code</td>
+            <td>BCD is expected to be numeric. If it is not, the
+            value of the object is set to INVALID value</td>
+        </tr>
+        <tr>
+            <td>TWOOF5(int)</td>
+            <td>Converts integer binary value to 2 out of 5 code.</td>
+            <td>int must be in the range of 0-9 or results will
+            be<br>
+            unpredictable</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td>ToInt()</td>
+            <td>Returns integer value represented (1st column
+            above)</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>ToBCD()</td>
+            <td>Returns BCD numeric character corresponding to
+            integer value</td>
+            <td>equivalent of converting the 2 out of 5 code to
+            an integer, adding ASCII '0', and converting the
+            result to BCD. Yields a BCD character in the set
+            0123456789.</td>
+        </tr>
+    </table>
+</blockquote>
+</body>
+</html>

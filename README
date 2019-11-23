@@ -1,0 +1,35 @@
+COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger  (See files Copyright.txt and COPYING)
+
+This project is a cycle-level simulator for the IBM 1410 Data Processing System.
+
+It was developed during the late 1990's into 2000, and then lay dormant until 2019, when I added the requisite copyright notice (Copyright.txt) and Gnu GPL 3 license (COPYING)
+
+It was developed under Borland C++ Builder, using the VCL (Visual Component Library).  I believe that the initial commit to Github was developed under Borland C++ Bulder Version 5.
+
+Subdirectories:
+   DOC - Class documentation (This appears to have been generated from the code, probably by C++ Builder)
+   fontlib - Font library for the fonts for the 1415 console and the 1403 printer.
+
+.cor files - these are core image files for testing and diagnostics.  See note1410.txt for details.
+
+Font Notes
+
+The .FON files are installable under Windows (at least through Windows 10).  
+If I recall correctly, last time I made changes, I used FontEdit to edit the fonts.  http://www.vsoft.nl/software/utils/win/fontedit/
+While I was developing this I used some old Borland tooling (see makefont.bat) which is not readily accessible anymore.  However, I found that I could take the .FNT file and use an online resource such as https://www.fontconverter.org/ to convert a .fnt file (which FontEdit can edit) to the .FON format.
+
+At least for now, the master branch is for Borland C++ Builder.  
+
+The initial GitHub commit is the version as it stood in 2000.
+
+TODOS (as of 11/19/2019)
+- Convert to a more recent version of (now) Embarcadero C++ Builder
+- Add disk support for 130x and 1311 disks (Note:  PR-155 OS cannot reside on a 1311, last I recall).
+
+
+
+
+
+
+
+      

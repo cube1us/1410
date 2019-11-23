@@ -1,0 +1,89 @@
+/* 
+ *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  (file COPYING.txt) along with this program.  
+ *  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+//---------------------------------------------------------------------------
+#include <vcl\vcl.h>
+#pragma hdrstop
+//---------------------------------------------------------------------------
+USEFORM("UI14101.cpp", FI14101);
+USERES("PIBM1410.res");
+USEFORM("UI1415IO.cpp", FI1415IO);
+USEUNIT("ubcd.cpp");
+USEFORM("UI1415L.cpp", F1415L);
+USEUNIT("UI1410CPUT.cpp");
+USEUNIT("UI1410CPU.cpp");
+USEFORM("UI1410PWR.cpp", FI1410PWR);
+USEFORM("UI1410DEBUG.cpp", F1410Debug);
+USEFORM("UI1415CE.cpp", FI1415CE);
+USEUNIT("UI1410INST.cpp");
+USEUNIT("UI1410ARITH.cpp");
+USEFILE("NOTE1410.TXT");
+USEUNIT("UI1410DATA.cpp");
+USEUNIT("UI1410BRANCH.cpp");
+USEUNIT("UI1410MISC.cpp");
+USEUNIT("UI1410CHANNEL.cpp");
+USEUNIT("UITAPEUNIT.cpp");
+USEUNIT("UITAPETAU.cpp");
+USEFORM("UI729TAPE.cpp", FI729);
+USEFORM("UI1403.cpp", FI1403);
+USEUNIT("UIPRINTER.cpp");
+USEFORM("UI1402.cpp", FI1402);
+USEUNIT("UIREADER.cpp");
+USEUNIT("UIHOPPER.cpp");
+USEUNIT("UIPUNCH.cpp");
+//---------------------------------------------------------------------------
+
+#include <dir.h>
+#include <stdio.h>
+
+#include "UBCD.H"
+#include "UI14101.H"
+#include "UI1410CPUT.H"
+#include "UIHOPPER.H"
+#include "UI1410CHANNEL.H"
+#include "UI1410DEBUG.H"
+#include "UI1410CPU.h"
+#include "UI1415IO.H"
+#include "UI1410PWR.H"
+
+WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+{
+
+	try
+	{
+		Application->Initialize();
+		Application->CreateForm(__classid(TFI14101), &FI14101);
+        Application->CreateForm(__classid(TF1410Debug), &F1410Debug);
+        Application->CreateForm(__classid(TFI1415IO), &FI1415IO);
+        Application->CreateForm(__classid(TF1415L), &F1415L);
+        Application->CreateForm(__classid(TFI1410PWR), &FI1410PWR);
+        Application->CreateForm(__classid(TFI1415CE), &FI1415CE);
+        Application->CreateForm(__classid(TFI729), &FI729);
+        Application->CreateForm(__classid(TFI1403), &FI1403);
+        Application->CreateForm(__classid(TFI1402), &FI1402);
+        Init1410();
+
+		Application->Run();
+	}
+	catch (Exception &exception)
+	{
+		Application->ShowException(&exception);
+	}
+	return 0;
+}
+//---------------------------------------------------------------------------

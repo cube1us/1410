@@ -1,0 +1,148 @@
+UBCD	BCD Character Definitions and utilities
+
+Module UBCD provide support for the BCD character set with types, classes,
+manifest constants and utilities.
+
+Constants
+
+	BITWM, BIT1, BIT2, BIT4, BIT8, BITC, BITB, BITC: Bits of a character
+	BIT_NUM:	Numeric bits (Mask)
+	BIT_ZONE:	Zone bits (Mask)
+
+	ASCII equivalents of certain BCD characters, used in console module
+
+	ASCII_RECORD_MARK
+	ASCII_GROUP_MARK
+	ASCII_SEGMENT_MARK
+	ASCII_RADICAL
+	ASCII_ATL_BLANK
+	ASCII_WORD_SEPARATOR
+	ASCII_DELTA
+
+Contstant data
+
+	WARNING:  These tables are MUCH too visible in the simulator.  Most of
+		these will become PRIVATE or PROTECTED in the future someday!
+
+	char bcd_ascii[64]:	Translates a BCD character to ASCII
+	int ascii_bcd[256]:	Translates ASCII to BCD (-1 if invalid ASCII)
+	
+	int bcd_to_two_of_five_table[64]: Translates BCD numerics to 2 out of 5 code
+		WM must be clear, ODD parity INCLUDING Check bit required.
+		The "0" bit in 2 out of 5 notation is the 0x10 bit in this table
+
+	int two_of_five_to_bin_table[32]: Translates 2 out of 5 code to binary
+		-1 indicates an invalid 2 out of 5 code input
+
+	int bin_to_two_of_five_table[10]: Translates 0-9 (binary) to 2 out of 5 code
+
+	int parity_table[256]:	1 if odd parity.  Check bit ignored.  WM bit included
+	int odd_parity_table[256]:	1 if odd parity.  Check Bit and WM included
+
+	enum bcd_char_type
+		BCD_NN:	Not alphanumberic or special
+		BCD_SC:	Special character
+		BCD_AN:	Alphanumeric (letter or number)
+
+CLASS BCD
+	
+	Contains a single BCD character.  Used all over the simulator, including
+		memory.
+
+	Derived from: Object
+
+	Constructors
+		BCD()		Initializes to 0
+		BCD(int i)	Initializes to BCD character with binary value i		
+
+	Static Methods (utilities)
+
+		BCDConvert(int ch)	Returns binary value of BCD equivalent 
+					of an ASCII character.  Returns binary
+					equivalent of BCD alternate blank if
+					ASCII character does not convert.
+
+		BCDCheck(int ch)	Returns binary value of BCD equivalent of
+					an ASCII character.  Returns -1 if ASCII
+					character does not convert.
+
+	Methods:
+		
+		Set(int i)	Sets to BCD character with binary value i
+		
+		char ToAscii()	Returns ASCII equivalent of current BCD character
+		int ToInt()	Returns binary value of BCD character
+		
+		bool IsMinus()	True if zones indicates a negative number (B Zone)
+		bool TestWM()		True if WM bit set
+		bool TestCheck()	True if Check bit set
+		
+		void SetWM()		Sets WM bit
+		void ClearWM()		Clears WM bit
+		void SetCheck()		Sets Check bit
+		void ComplementCheck()	Flips Check bit
+		void ClearCheck()	Clears Check bit
+
+		bool CheckParity	True if character has proper odd parity
+		bool SetOddParity	Sets Check bit to force odd parity
+
+		int GetParity()		1 if character is odd parity (ignores check bit)
+		
+		BCD operator&(BCD)	Bitwise AND
+		BCD operator&(int)	Bitwise AND with a binary value
+		BCD operator|(BCD)	Bitwise OR
+		BCD operator|(int)	Bitwise OR with a binary value
+		BCD operator<<(int)	Bitwise left shift "int" bits
+		BCD operator>>(int)	Bitwise right shift "int" bits
+		bool operator==(BCD)	True if the same BCD value
+		bool operator!=(BCD)	Ture if not the same BCD value
+		bool operator==(int)	True if BCD char has a given binary value
+		bool operator!=(int)	True if BCD char does not have a given binary val
+
+		enum bcd_char_type GetType()	Returns type (see enum) of BCD char
+
+		
+CLASS TWOOF5
+
+	Contains 2 out of 5 code.  Used in registers of 1410
+
+	The bits are coded in binary, as follows
+
+	1	1	TWOOF5_1
+	2	2
+	4	4
+	8	8	
+	0	16	TWOOF5_0
+
+	Binary values are encoded in such a way as any binary value is represented
+	by exactly two of the above values.  The table below shows, for each binary
+	number, the decimal value stored in the simulator, and the equivalent 2 out
+	of 5 code bit coding
+
+	0	10	2+8
+	1	17	0+1
+	2	18	0+2
+	3	3	1+2
+	4	20	0+4
+	5	5	1+4
+	6	6	2+4
+	7	12	4+8
+	8	24	0+8
+	9	9	1+8
+	
+	Derived from: Object
+
+	Constructors
+		TWOOF5()	Initializes to INVALID 2 out of 5 code!
+		TWOOF5(BCD)	Converts BCD character to two out of 5 code
+				BCD is expected to be numeric.  If it is not, the
+				value of the object is set to INVALID value
+		TWOOF5(int)	Converts integer binary value to 2 out of 5 code.	
+				int must be in the range of 0-9 or results will be
+				unpredictable.
+		ToInt()		Returns integer value represented (1st column above)
+		ToBCD()		Returns BCD numeric character corresponding to 
+				integer value (equivalent of converting the 2 out of
+				5 code to an integer, adding ASCII '0', and converting
+				the result to BCD.  Yields a BCD character in the set
+				0123456789.

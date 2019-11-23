@@ -1,0 +1,1258 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>UI1410CPUT - IBM 1410 CPU Types</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<h1 align="center">Module UI1410CPUT: CPU Definitions and
+Utilities </h1>
+
+<hr>
+
+<p>Module UI1410CPUT defines the data types for the CPU in the
+emulator</p>
+
+<p>Implements these classes:</p>
+
+<blockquote>
+    <p><a href="#TCPUOBJECT">TCpuObject (abstract)</a></p>
+    <blockquote>
+        <p><a href="#TDISPLAYOBJECT">TDisplayObject (abstract)</a></p>
+    </blockquote>
+    <blockquote>
+        <blockquote>
+            <p><a href="#TDISPLAYINDICATOR">TDisplayIndicator</a></p>
+        </blockquote>
+    </blockquote>
+    <blockquote>
+        <blockquote>
+            <p><a href="#TDISPLAYLATCH">TDisplayLatch</a></p>
+        </blockquote>
+    </blockquote>
+    <blockquote>
+        <blockquote>
+            <p><a href="#TRINGCOUNTER">TRingCounter</a></p>
+        </blockquote>
+    </blockquote>
+    <blockquote>
+        <blockquote>
+            <p><a href="#TREGISTER">TRegister</a></p>
+            <p><a href="#TACHANNEL">TAChannel</a> (unique)</p>
+            <p><a href="#TASSEMBLYCHANNEL">TAssemblyChannel</a>
+            (unique)</p>
+        </blockquote>
+    </blockquote>
+    <blockquote>
+        <p><a href="#TADDRESSREGISTER">TAddressRegister</a></p>
+    </blockquote>
+    <p>T1410Channel (Not really implemented yet)</p>
+    <p>T1410CPU (unique)</p>
+</blockquote>
+
+<h2><a name="Constants">Constants </a></h2>
+
+<h3>Manifest Constants</h3>
+
+<blockquote>
+    <p>See individual classes</p>
+</blockquote>
+
+<h2><a name="Contstant_data">Constant data </a></h2>
+
+<p>WARNING: These tables are MUCH too visible in the simulator.
+Most of these will become PRIVATE or PROTECTED in the future
+someday! </p>
+
+<table border="2">
+    <tr>
+        <td width="30%">long ten_thousands</td>
+        <td>Multiplies each index by 10,000</td>
+        <td>0, 10000, 2000, ... 90000</td>
+    </tr>
+    <tr>
+        <td width="30%">long thousands</td>
+        <td>Multiplies each index by 1,000</td>
+        <td>0, 1000, 2000, ... 9000</td>
+    </tr>
+    <tr>
+        <td width="30%">long hundreds</td>
+        <td>Multiplies each index by 100</td>
+        <td>0, 100, 200, ... 900</td>
+    </tr>
+    <tr>
+        <td width="30%">long tens</td>
+        <td>Multiplies each index by 10</td>
+        <td>0, 10, 20, ... 90</td>
+    </tr>
+    <tr>
+        <td width="30%">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="30%">long scan_mod</td>
+        <td>scan modification values</td>
+        <td>0 (N), -1 (1), +1(2), -1 (3)</td>
+    </tr>
+    <tr>
+        <td width="30%">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td width="30%">unsigned char sign_normalize</td>
+        <td>Takes sign bit config (BA) and normalizes it. Plus
+        sign becomes BA, Minus sign becomes A. (Shifted right 4
+        bits)</td>
+        <td>3,3,2,3</td>
+    </tr>
+    <tr>
+        <td>unsigned char sign_complement_table</td>
+        <td>Same as above, but inverts the sign in the process</td>
+        <td>2,2,3,2</td>
+    </tr>
+    <tr>
+        <td>unsigned char sign_negative_table</td>
+        <td>1 if sign configuration (shifted right 4 bits) is
+        negative</td>
+        <td>0,0,1,0</td>
+    </tr>
+    <tr>
+        <td>struct OpCodeCommonLines</td>
+        <td>Op code decode table - in a real 1410 CPU, these are
+        the common logic lines coming out of the instruction
+        decoder</td>
+        <td>Implemented in module UI1410INST</td>
+    </tr>
+    <tr>
+        <td>int IndexRegisterLookup</td>
+        <td>Table of index register storage locations (least
+        significant digit)</td>
+        <td>Implemented in module UI1410INST</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<h2><a name="CLASSES">CLASSES</a></h2>
+
+<p>&nbsp;</p>
+
+<h3><a name="TCPUOBJECT">CLASS TCpuObject (abstract)</a></h3>
+
+<blockquote>
+    <p>The base class for most persistant objects in the CPU.
+    Supports Computer Reset and Program Reset behavior.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: Object </p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructor</h4>
+    <table border="1">
+        <tr>
+            <td>TCpuObject( )</td>
+            <td>Adds object to CPU ResetList chain. ResetList is
+            used by Computer Reset and Program Reset processing</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td>void OnComputerReset (<strong>virtual</strong>)</td>
+            <td>Implements object's Computer Reset behavior</td>
+        </tr>
+        <tr>
+            <td>void OnProgramReset (<strong>virtual</strong>)</td>
+            <td>Implements object's Program Reset behavior</td>
+        </tr>
+    </table>
+    <h4>Data Members</h4>
+    <table border="1">
+        <tr>
+            <td>bool DoesProgramReset (<strong>protected</strong>)</td>
+            <td>True if this object's OnProgramReset method
+            should be called during Program Reset processing.</td>
+        </tr>
+        <tr>
+            <td>TCpuObject *NextReset</td>
+            <td>Pointer to next item in CPU ResetList</td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h3><a name="TDISPLAYOBJECT">CLASS TDisplayObject (abstract) </a></h3>
+
+<blockquote>
+    <p>The base class for objects which have display lights
+    associated with them on the user interface.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TCPUOBJECT">TCpuObject</a></p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructor</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TDisplayObject</td>
+            <td>Adds object to the CPU DisplayList . DisplayList
+            is used during GUI display operations</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void Display (<strong>virtual</strong>)</td>
+            <td>Implements object's display behavor</td>
+        </tr>
+        <tr>
+            <td width="30%">void LampTest (bool b)</td>
+            <td>Implements Lamp Test behavior. Should turn
+            associated lamp on if b is true. Should return lamp
+            to appropriate display state if b is false.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Data Members</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">TDisplayObject *NextDisplay</td>
+            <td>Pointer to next item in CPU DisplayList</td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h3><a name="TDISPLAYINDICATOR">CLASS TDisplayIndicator </a></h3>
+
+<blockquote>
+    <p>The base class for objects where are displayable (have
+    associated lamps) but which have no state.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TDISPLAYOBJECT">TDisplayObject</a></p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructor</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TDisplayIndicator(TLabel *lamp, bool (__closure
+            *display( ))</td>
+            <td>lamp is a pointer to a GUI display object.
+            display is a pointer to a closure, (in essence, an
+            externally implemented virtual function) which
+            returns true if the lamp should be lit.</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void OnComputerReset( )</td>
+            <td>Does nothing, because these objects have no
+            state.</td>
+        </tr>
+        <tr>
+            <td width="30%">void OnProgramReset( )</td>
+            <td>Does nothing, because these objects have not
+            state.</td>
+        </tr>
+        <tr>
+            <td>void Display()</td>
+            <td>Sets the lamp GUI object to enabled if closure
+            display() returns true. Repaints screen</td>
+        </tr>
+        <tr>
+            <td>void LampTest(bool b)</td>
+            <td>If b is true, sets the lamp GUI object to
+            enabled. If false, set the lamp GUI object to enabled
+            if closure display() returns turn. Repaints screen.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Data Members</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">TLabel *lamp (<strong>protected</strong>)</td>
+            <td>A Borland displayable object consisting of text.</td>
+        </tr>
+        <tr>
+            <td>bool (__closure *display) ( ) (<strong>protected</strong>)</td>
+            <td>Returns true if lamp should currently be lit.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h3><a name="TDISPLAYLATCH">CLASS TDisplayLatch </a></h3>
+
+<blockquote>
+    <p>CPU objects that are latches (remember their state). Note
+    that although all latches are reset by Computer Reset, only
+    some latches are reset by Program Reset.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TDISPLAYOBJECT">TDisplayObject</a></p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructors</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TDisplayLatch(TLabel *l)</td>
+            <td>Creates a normal displayable latch - one that <strong>is</strong>
+            reset by Program Reset</td>
+        </tr>
+        <tr>
+            <td>TDisplayLatch(TLabel *l, bool progreset)</td>
+            <td>Allows caller to specify whether or not latch
+            should be reset by Program Reset</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void OnComputerReset( )</td>
+            <td>Implements Computer Reset behavior: sets state to
+            false</td>
+        </tr>
+        <tr>
+            <td width="30%">void OnProgramReset( )</td>
+            <td>Implements Program Reset behavior. Implementation
+            tests state of doprogramreset to determine if any
+            action should be taken</td>
+        </tr>
+        <tr>
+            <td>void Display()</td>
+            <td>Implements display behavior - enables lamp if
+            state is true</td>
+        </tr>
+        <tr>
+            <td>void LampTest(bool b)</td>
+            <td>Enables lamp if b is true. Sets lamp to
+            appropriate state if b is false.</td>
+        </tr>
+        <tr>
+            <td>void Reset( )</td>
+            <td>Sets state to false</td>
+        </tr>
+        <tr>
+            <td>void Set( )</td>
+            <td>Sets state to true</td>
+        </tr>
+        <tr>
+            <td>void Set(bool b)</td>
+            <td>Sets state to b</td>
+        </tr>
+        <tr>
+            <td>void SetStop(char *msg)</td>
+            <td>Special case used by error latches. If this is
+            called, this latch's state is set to true <strong>and</strong>
+            the CPU StopLatch is also set to true, and if the the
+            associated message pointer is not NULL, it is entered
+            into the 1410 debug log.</td>
+        </tr>
+        <tr>
+            <td>bool State()</td>
+            <td>Returns current latch state.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Data Members</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">bool state (<strong>protected</strong>)</td>
+            <td>Current latch state</td>
+        </tr>
+        <tr>
+            <td>bool doprogramreset (<strong>protected)</strong></td>
+            <td>True if this latch should be reset during a
+            Program Reset operation</td>
+        </tr>
+        <tr>
+            <td>TLabel *lamp</td>
+            <td>Associated display object, consisting of text</td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h3><a name="TRINGCOUNTER">CLASS TRingCounter </a></h3>
+
+<blockquote>
+    <p>Ring counters are a set of latches, only one of which is
+    set at any one time. Ring counters may have up to two sets of
+    display lamps: one would typically be on the front panel, and
+    the second would be on a CE panel somewhere. The constructor
+    will build the front panel list of lamps, but if there is a
+    set of CE panel lamps, that list must be constructed outside.
+    The pointers to the lamp lists are available as public
+    variables.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TDISPLAYOBJECT">TDisplayObject</a></p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructor</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TRingCounter(char n)</td>
+            <td>Creates a ring counter with n latches</td>
+        </tr>
+        <tr>
+            <td>~TRingCounter( )</td>
+            <td>Destructor - will free the list of lamps.
+            Provided for completeness, never used</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void OnComputerReset( )</td>
+            <td>Implements Computer Reset behavior - sets state
+            to 0</td>
+        </tr>
+        <tr>
+            <td width="30%">void OnProgramReset( )</td>
+            <td>Implements Program Reset behavior. All ring
+            counters are reset on Program Reset</td>
+        </tr>
+        <tr>
+            <td>void Display( )</td>
+            <td>Implements display behavior - displays ring
+            counter state</td>
+        </tr>
+        <tr>
+            <td>void LampTest(bool b)</td>
+            <td>Enables all lamps if b is true. Sets lamps to
+            appropriate state if b is false.</td>
+        </tr>
+        <tr>
+            <td>void Reset( )</td>
+            <td>Sets state to 0</td>
+        </tr>
+        <tr>
+            <td>void Set(char n)</td>
+            <td>Sets ring counter state to &quot;n&quot;. (n is
+            not currently pre-validated!)</td>
+        </tr>
+        <tr>
+            <td>char State( )</td>
+            <td>Returns current ring counter</td>
+        </tr>
+        <tr>
+            <td>char Next( )</td>
+            <td>Sets ring counter to next state, and returns new
+            state. If an attempt is made to advance the ring
+            counter beyond the maximum set in the destructor, the
+            state is set to 0.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Data Members</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">char state (<strong>private</strong>)</td>
+            <td>Current ring counter state</td>
+        </tr>
+        <tr>
+            <td>char max (<strong>private</strong>)</td>
+            <td>Number of latches in ring counter</td>
+        </tr>
+        <tr>
+            <td>TLabel *lastlamp (<strong>private</strong>)</td>
+            <td>Last lamp to be displayed</td>
+        </tr>
+        <tr>
+            <td>TLabel *lastlampCE (<strong>private</strong>)</td>
+            <td>Last CE lamp to be displayed, if any</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>TLabel **lamps</td>
+            <td>Pointer to array of lamps for ring counter. This
+            array is created by the constructor.</td>
+        </tr>
+        <tr>
+            <td>TLabel **lampsCE</td>
+            <td>Pointer to array of lamps for CE panel for ring
+            counter. Initialized to NULL by constructor</td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+</blockquote>
+
+<h3><a name="TREGISTER">CLASS TRegister </a></h3>
+
+<blockquote>
+    <p>CPU objects that are registers. The registers are all
+    stored as BCD, but there are special set routines or special
+    clear routines for those registers that don't use all of
+    their bits (e.g. the Op register has no WM or C bits), and
+    there are therefore special constructors to construct the
+    register properly.</p>
+    <p>Because the display of registers is generally complicated,
+    there is a separate routine to initialize the list of lamps
+    for the register (see method SetDisplay). It also kept the
+    number of constructors down to a mild roar.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TDISPLAYOBJECT">TDisplayObject</a></p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructors</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TRegister( )</td>
+            <td>Default constructor. Initializes to just the
+            &quot;C&quot; bit, and sets up register to be reset
+            by Program Reset. Lamp list and error lamp pointers
+            are set to NULL</td>
+        </tr>
+        <tr>
+            <td>TRegister(bool b)</td>
+            <td>Same as default constructor, but allows caller to
+            specify whether or not the register should be reset
+            by Program Reset</td>
+        </tr>
+        <tr>
+            <td>TRegister(int i)</td>
+            <td>Sames as default constructor, but allows caller
+            to specify initialization value. Value must be the
+            binary representation of a BCD character - it is
+            assigned bitwise to the registers.</td>
+        </tr>
+        <tr>
+            <td>TRegister(int i, bool b)</td>
+            <td>Same as above, but allows caller to specify
+            whether or not the register should be reset by
+            Program Reset.</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void OnComputerReset( )</td>
+            <td>Implements Computer Reset behavior: resets
+            register to just the &quot;C&quot; bit.</td>
+        </tr>
+        <tr>
+            <td width="30%">void OnProgramReset( )</td>
+            <td>Implements Program Reset behavior. Implementation
+            tests state of doprogramreset and if true, resets the
+            register to just the &quot;C&quot; bit.</td>
+        </tr>
+        <tr>
+            <td>void Display( )</td>
+            <td>Implements display behavior</td>
+        </tr>
+        <tr>
+            <td>void LampTest(bool b)</td>
+            <td>Enables all lamps if b is true. Sets lamps to
+            appropriate state if b is false.</td>
+        </tr>
+        <tr>
+            <td>void Reset( )</td>
+            <td>Sets register to just the &quot;C&quot; bit.</td>
+        </tr>
+        <tr>
+            <td>void Set(BCD b)</td>
+            <td>Sets register to given BCD value</td>
+        </tr>
+        <tr>
+            <td>void Set(bool b)</td>
+            <td>Sets state to b</td>
+        </tr>
+        <tr>
+            <td>BCD Get( )</td>
+            <td>Returns current value in register</td>
+        </tr>
+        <tr>
+            <td>void SetDisplay(TLabel *ler, TLabel **l)</td>
+            <td>Initializes pointers to an error lamp (NULL if no
+            error lamp) and pointer to an array of display lamps.
+            Display lamps must be in order 1248ABC WM. If there
+            is no lamp for a given bit, the pointer to that
+            particular lamp should be NULL in the array.</td>
+        </tr>
+        <tr>
+            <td>void operator=(TRegister &amp;source)</td>
+            <td>Copies value from one register to another. <strong>Copies
+            only the current register value, not the entire
+            register setup!</strong></td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Data Members (all private)</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">BCD value </td>
+            <td>Register state</td>
+        </tr>
+        <tr>
+            <td>TLabel *lampER</td>
+            <td>Pointer to an error lamp, if any, or NULL</td>
+        </tr>
+        <tr>
+            <td>TLabel **lamps </td>
+            <td>Pointer to an array of lamps, in order 12348ABC
+            WM. Missing lamps have NULL for their entry in the
+            array.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h3><a name="TADDRESSREGISTER">CLASS TAddressRegister</a></h3>
+
+<blockquote>
+    <p>CPU registers that store addresses. In a real 1410 CPU
+    these registers use 2 out of 5 code. If I did that, the
+    constant conversion would really slow things down. As a
+    result, this implementation also stored an equivalent binary
+    value (0 - 99999), which really speeds things up. However, it
+    also makes for some tricky code, especially given that
+    registers can temporarily have invalid value (e.g. during
+    address readout).</p>
+    <p>An address register is considered valid iff the binary, <strong>or</strong>
+    decimal representations are valid <strong>or</strong> all of
+    the individual digits are valid.</p>
+    <p>Address registers are never reset by program reset.</p>
+    <p>It is for registers that the arrays ten_thousands,
+    thousands, hundreds and tens exist.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TCPUOBJECT">TCpuObject</a></p>
+</blockquote>
+
+<blockquote>
+    <h4>Constructors</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TAddressRegster( )</td>
+            <td>Initializes the address register to
+            &quot;invalid&quot;, but 0.</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void OnComputerReset( )</td>
+            <td>Implements Computer Reset behavior: Resets
+            register to &quot;invalid&quot; but 0.</td>
+        </tr>
+        <tr>
+            <td width="30%">void OnProgramReset( )</td>
+            <td>Does nothing, as address registers are never
+            reset by program reset.</td>
+        </tr>
+        <tr>
+            <td>bool IsValid( )</td>
+            <td>Returns true iff either the binary <strong>or</strong>
+            the decimal representation (taken as a whole, <strong>or</strong>
+            all 5 individual digits) in the register has been
+            properly set.</td>
+        </tr>
+        <tr>
+            <td>long Gate( )</td>
+            <td>Gates the address register onto the Address Bus
+            (25 lines in the real machine): i.e. returns binary
+            integer value of the address register if valid.
+            Returns -1 if the address register value is not
+            currently valid. This amounts to a parallel, 5 digit
+            readout of the address register.</td>
+        </tr>
+        <tr>
+            <td>BCD GateBCD(int i)</td>
+            <td>Gates a single digit, converted to BCD, of a
+            register onto the Address Register Exit Channel (5
+            lines in the real machine). (On the real machine,
+            this would be via the Address Bus)</td>
+        </tr>
+        <tr>
+            <td>void Set(TWOOF5 digit,int index)</td>
+            <td>Sets one digit of the address register (specified
+            by index) to the provided TWOOF5 value.</td>
+        </tr>
+        <tr>
+            <td>void Set(long value)</td>
+            <td>Sets the entire address register (all 5 digits)
+            based on the provided binary value</td>
+        </tr>
+        <tr>
+            <td>void Reset( )</td>
+            <td>Resets the address register to blanks
+            (&quot;invalid&quot; but 0).</td>
+        </tr>
+        <tr>
+            <td>void operator=(TAddressRegister &amp;source)</td>
+            <td>Assigns the value in one address register to
+            another. If the source register is not valid, causes
+            an Address Exit Check.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Data Members (all private)</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">long i_value</td>
+            <td>Integer equivalent of value in address register
+            (see i_valid)</td>
+        </tr>
+        <tr>
+            <td>bool i_valid </td>
+            <td>Indicates whether or not integer representation
+            is currently valid and up to date</td>
+        </tr>
+        <tr>
+            <td>bool set[5]</td>
+            <td>Indicates whether or not a given digit has been
+            set to a (presumably valid) 2 out of 5 code value.</td>
+        </tr>
+        <tr>
+            <td>TWOOF5 digits[5]</td>
+            <td>The individual address register digits</td>
+        </tr>
+        <tr>
+            <td>bool d_valid</td>
+            <td>Indicates that the current decimal representation
+            is currently valid and up to date</td>
+        </tr>
+        <tr>
+            <td>char *name</td>
+            <td>Register name. (May not be currently used)</td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h3><a name="TACHANNEL">CLASS TAChannel</a></h3>
+
+<blockquote>
+    <p>The CPU A Channel . All this object really does is define
+    what register (A, Op Modifier, E or F) is selected when the A
+    Channel is accessed.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TDISPLAYOBJECT">TDisplayObject</a></p>
+    <p><strong>Manifest Constants</strong></p>
+    <p>Enumeration AChannelSelect identifies what register should
+    be gated onto the A Channel.</p>
+    <table border="1">
+        <tr>
+            <td>A_Channel_None</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>A_Channel_A</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>A_Channel_Mod</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>A_Channel_E</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>A_Channel_F</td>
+            <td>4</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Constructors</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TAChannel( )</td>
+            <td>Sets selection to A_Channel_None, builds lamp
+            array</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void OnComputerReset( )</td>
+            <td>Sets selection to A_Channel_None</td>
+        </tr>
+        <tr>
+            <td width="30%">void OnProgramReset</td>
+            <td>Sets selection to A_Channel_None</td>
+        </tr>
+        <tr>
+            <td>BCD Select(enum AChannelSelect sel)</td>
+            <td>Selects input to A Channel, gates register to A
+            channel and returns that value</td>
+        </tr>
+        <tr>
+            <td>BCD Select( )</td>
+            <td>Gates what ever register has already been
+            selected, and returns that value</td>
+        </tr>
+        <tr>
+            <td>void Reset( )</td>
+            <td>Resets selection to A_Channel_None</td>
+        </tr>
+        <tr>
+            <td>void Display( )</td>
+            <td>Displays <strong>which register</strong> is
+            current gated to A Channel (on 1411 CE panel) (Does
+            not display the value of the gated register, just
+            which one!)</td>
+        </tr>
+        <tr>
+            <td>void LampTest(bool b)</td>
+            <td>If b is true, lights all lamps. If b is false,
+            lights the appropriate lamp</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Data Members (all private)</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">enum AChannelSelect AChannelSelect</td>
+            <td>Current register selected onto A Channel</td>
+        </tr>
+        <tr>
+            <td>TLabel *lamps[4]</td>
+            <td>An array of pointers to 4 lamps (on CE panel): A,
+            Op Modifier, E, F</td>
+        </tr>
+    </table>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h3><a name="TASSEMBLYCHANNEL">CLASS TAssemblyChannel</a></h3>
+
+<blockquote>
+    <p>The CPU Assembly Channel. The Assembly Channel is the
+    1410's Mix Master ®. For the Zones and WordMark bits you can
+    choose the A Channel or B Register or for nothing to be gated
+    at all (None). For the Numeric bits you can select whether
+    each is to not be gated at all (None), the A Channel, the B
+    Register or the output of the Adder. For the Sign (instead of
+    Zones) you can choose None (not gated to the sign bits), the
+    A Channel, the B Register or the Sign Latch in the Adder.</p>
+    <p>The display of the assembly channel is only on the CE
+    panel. It displays the <strong>values</strong> of the bits
+    selected <strong>and their complements</strong>. There is
+    also an Assembly Channel Error lamp.</p>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: <a href="#TDISPLAYOBJECT">TDisplayObject</a></p>
+    <p><strong>Manifest Constants</strong></p>
+    <p>Enumeration AsmChannelZonesSelect identifies where the
+    Zone bits come from</p>
+    <table border="1">
+        <tr>
+            <td>AsmChannelZonesNone</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>AsmChannelZonesB</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>AsmChannelZonesA</td>
+            <td>2</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <p>Enumeration AsmChannelWMSelect identifies where the WM bit
+    comes from</p>
+    <table border="1">
+        <tr>
+            <td>AsmChannelWMNone</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>AsmChannelWMB</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>AsmChannelWMA</td>
+            <td>2</td>
+        </tr>
+    </table>
+    <p>Enumeration AsmChannelNumericsSelect identifies where the
+    Zone bits come from</p>
+    <table border="1">
+        <tr>
+            <td>AsmChannelNumNone</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>AsmChannelNumB</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>AsmChannelNumA</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>AsmChannelNumAddr</td>
+            <td>3</td>
+        </tr>
+    </table>
+    <p>Enumeration AsmChannelSignSelect identifies where the Sign
+    bits come from (you can choose this rather than Zone bits)</p>
+    <table border="1">
+        <tr>
+            <td>AsmChannelSignNone</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>AsmChannelSignB</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>AsmChannelSignA</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>AsmChannelSignSelect </td>
+            <td>3</td>
+        </tr>
+    </table>
+    <h4>Constructors</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>TAssemblyChannel( )</td>
+            <td>Sets gating for all bits to NONE</td>
+        </tr>
+    </table>
+    <h4>Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void OnComputerReset( )</td>
+            <td>Sets gating for all bits to NONE</td>
+        </tr>
+        <tr>
+            <td width="30%">void OnProgramReset</td>
+            <td>Same as for Computer Reset</td>
+        </tr>
+        <tr>
+            <td>void Display( )</td>
+            <td>Displays the appropriate bit lamps, complement
+            lamps and error lamp state.</td>
+        </tr>
+        <tr>
+            <td>void LampTest(bool b)</td>
+            <td>If b is true, lights all the lamps: bit lamps,
+            complement lamps and error lamp. If b is false,
+            lights just the appropriate lamps.</td>
+        </tr>
+        <tr>
+            <td>BCD Select( )</td>
+            <td>Returns the date that results from the previous
+            selected Assembly Channel data (effectively, gates
+            out the Assembly Channel). Recomputes
+            &quot;value&quot; holding value. If the value is not
+            valid, generates an Assembly Channel Check.</td>
+        </tr>
+        <tr>
+            <td>BCD Select(enum AsmChannelWMSelect, enum
+            AsmChannelZonesSelect, bool InvertSign, enum
+            AsmChannelSignSelect, enum AsmChannelNumericSelect)</td>
+            <td>Gates the appropriate stuff into the assembly
+            channel, processes it, and returns the result. If the
+            value is not valid, generates an Assembly Channel
+            Check. (In addition to the gating, the InvertSign
+            will cause a sign inversion in the output)</td>
+        </tr>
+        <tr>
+            <td>BCD Get()</td>
+            <td>If valid, simply returns the previous value gated
+            from the Assembly Channel, without recomputing the
+            bits based on the current selection. If the value is
+            not valid, generates an Assembly Channel Check.</td>
+        </tr>
+        <tr>
+            <td>BCD Set(BCD v)</td>
+            <td>Force feeds the assembly channel value. Handy in
+            certain situations where the real CPU gates constant
+            data onto the Assembly Channel</td>
+        </tr>
+        <tr>
+            <td>void Reset( )</td>
+            <td>Resets all of the Assembly Channel gating
+            selections</td>
+        </tr>
+        <tr>
+            <td>BCD GateAChannelToAssembly(BCD v)</td>
+            <td>Gating the A Channel in its entirety to the
+            Assembly Channel happens often enough that I provided
+            a separate method for doing that, rather than having
+            to do a Select( ). The value is typically the A
+            Channel's current value.</td>
+        </tr>
+        <tr>
+            <td>BCD GateBRegToAssembly(BCD v)</td>
+            <td>Ditto for the B Register</td>
+        </tr>
+    </table>
+    <h4>Data Members (all private)</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">BCD value</td>
+            <td>Current (typically computed, but sometimes set)
+            assembly channel value</td>
+        </tr>
+        <tr>
+            <td>bool valid</td>
+            <td>True if value is valid. Reset during <strong>every
+            machine cycle</strong></td>
+        </tr>
+        <tr>
+            <td>enum AsmChannelZonesSelect</td>
+            <td>The current Assembly Channel Zones selection</td>
+        </tr>
+        <tr>
+            <td>enum AsmChannelWMSelect</td>
+            <td>The current Assembly Channel Word Mark selection</td>
+        </tr>
+        <tr>
+            <td>enum AsmChannelNumericSelect</td>
+            <td>The current Assembly Channel numeric bits
+            selection</td>
+        </tr>
+        <tr>
+            <td>enumAsmChannelSignSelect</td>
+            <td>The current Assembly Channel Sign bits selection</td>
+        </tr>
+        <tr>
+            <td>TLabel *AssmLamps</td>
+            <td>The Assembly Channel bits (on if bit set)</td>
+        </tr>
+        <tr>
+            <td>TLabel *AssmComplLamps</td>
+            <td>The Assembly Channel bits (on if bit not set)</td>
+        </tr>
+        <tr>
+            <td>TLabel *AssmERLamp</td>
+            <td>On if Assembly Channel error</td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+</blockquote>
+
+<h3><a name="TACHANNEL">CLASS T1410CPU</a></h3>
+
+<blockquote>
+    <p>The CPU itself. Although the class declaration is in this
+    file, the implementation has been split into several files:</p>
+    <ul>
+        <li>UI1410CPUT Contains the constructor and utilities</li>
+        <li>UI1410INST Contains the instruction set decoder and
+            instruction implementation</li>
+    </ul>
+</blockquote>
+
+<blockquote>
+    <p>Derived from: Object</p>
+    <p><strong>Manifest Constants</strong></p>
+    <ul>
+        <li>MAXCHANNEL defines the number of channels in the
+            machine (2)</li>
+        <li>CHANNEL1 is an index into the T1410Channel array for
+            the first channel (0)</li>
+        <li>CHANNEL2 is the index into the T1410Channel aray for
+            the second channel (1)</li>
+        <li>STORAGE defines the amount of storage, in core
+            positions (80,000)</li>
+        <li>I_RING_OP, I_RING_1 thr I_RING_12 describe I Ring
+            states</li>
+        <li>A_RING_1 thru A_RING_6 describe A Ring states</li>
+        <li>CLOCK_A thru CLOCK_H, CLOCK_J, CLOCK_K describe main
+            CPU clock ring states</li>
+        <li>SCAN_N, SCAN_1 thru SCAN_3 describe CPU storage scan
+            states</li>
+        <li>SUB_SCAN_NONE, _U, _B, _E, _MQ describe CPU storage
+            sub scan states</li>
+        <li>CYCLE_A thru CYCLE_F, CYCLE_I and CYCLE_X describe
+            what kind of cycle the machine is in</li>
+    </ul>
+    <h4>Constructors</h4>
+</blockquote>
+
+<blockquote>
+    <table border="1">
+        <tr>
+            <td>T1410CPU</td>
+            <td>Constructs the CPU. What can I say! Read the
+            code!</td>
+        </tr>
+    </table>
+    <h4>General Methods</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">Display( )</td>
+            <td>Runs thru the display list calling Display( ) for
+            displayable objects</td>
+        </tr>
+        <tr>
+            <td width="30%">Cycle( )</td>
+            <td>Used for common CPU cycles e.g. I, A, and B. X
+            (index) cycles are handled elsewhere.</td>
+        </tr>
+        <tr>
+            <td>BCD Adder(BCD A, int Complement_A, BCD B, int
+            Complement_B)</td>
+            <td>Runs the A Channel and B Register thru the adder,
+            returning a BCD result</td>
+        </tr>
+        <tr>
+            <td><strong>private </strong>bool IndicatorOffNormal(
+            )</td>
+            <td>True if the Off Normal indicator would be on.</td>
+        </tr>
+    </table>
+</blockquote>
+
+<blockquote>
+    <h4>Storage Methods (uses STAR/MAR and B Data Register)</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void Readout( )</td>
+            <td>Reads out one storage character</td>
+        </tr>
+        <tr>
+            <td width="30%">void Store( )</td>
+            <td>Stores character from B Data Register</td>
+        </tr>
+        <tr>
+            <td>void Store(BCD bcd)</td>
+            <td>Sets B Data Register, then stores the result</td>
+        </tr>
+        <tr>
+            <td>void SetScan(char s)</td>
+            <td>Sets Scan Modification value</td>
+        </tr>
+        <tr>
+            <td>long STARScan( )</td>
+            <td>Applies Scan Modification to STAR, and returns
+            the resulting storage address, siutable to assign to
+            an address register</td>
+        </tr>
+        <tr>
+            <td>long STARMod(int mod)</td>
+            <td>Similar to above, but provides direct +1/0/-1
+            modification</td>
+        </tr>
+        <tr>
+            <td>void LoadCore(char *file)</td>
+            <td>Loads core from a file</td>
+        </tr>
+        <tr>
+            <td>void DumpCore(char *file)</td>
+            <td>Dumps core to a file</td>
+        </tr>
+    </table>
+    <h4>Instruction Operation Utility Methods (implemented in
+    module UI1410INST)</h4>
+    <table border="1">
+        <tr>
+            <td width="30%">void InstructionDecodeStart( )</td>
+            <td>Starts instruction decode processing</td>
+        </tr>
+        <tr>
+            <td width="30%">void InstructionDecode( )</td>
+            <td>Remainder of instruction decode</td>
+        </tr>
+        <tr>
+            <td>void InstructionDecodeIARAdvance</td>
+            <td>Conditionally advance IAR</td>
+        </tr>
+        <tr>
+            <td>void InstructionIndexStart</td>
+            <td>Starts up an indexing operation</td>
+        </tr>
+        <tr>
+            <td>void InstructionIndex( )</td>
+            <td>Does the actual indexing</td>
+        </tr>
+    </table>
+    <h4>Data Members (all private)</h4>
+    <table border="1">
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+</blockquote>
+</body>
+</html>

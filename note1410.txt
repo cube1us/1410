@@ -1,0 +1,556 @@
+This is a project notepad for the IBM 1410 simulator/emulator.
+
+Most importantly, I am documenting the contents and use of the
+testing core image here, so that the notes don't get lost.
+
+There is a core file, ILENTST.COR, and a backup, ILENTST2.COR.
+Both should ordinarily be the same of very similar.
+There is also an instruction test, instttest.cor
+
+INSTRUCTION DECODE/LENGTH TESTS
+
+These are intended for instruction length checking only.  Before using
+them, it is convenient to go into T1410CPU::DoStartClick() and change it
+so that the instructions don't actually try to execute.
+
+00000   Tape load instruction: ready to boot!
+00100   Add Instruction (A)
+00200   Subtract Instruction (S)
+00300   Zero and Add Instruction (?)
+00400   Zero and Subtract Instruction (!)
+00500   Multiply Instruction (M)
+00600   Divide Instruction (%)
+00700   Move Instruction (D)
+00800   Move Characters and Suppress Zeros Instruction (Z)
+00900   Edit Instruction (E)
+01000   Compare Instruction (C)
+01100   Table Lookup Instruction (T)
+01200   Branch Instructions (J, X, R)
+01300   Branch Character Equal Instruction (B)
+01400   Branch if Bit Equal Instruction (W)
+01500   Branch on Word Mark or Zone Equal (V)
+01600   Store Address Register (G)
+01700   Set Word Mark Instruction (,)
+01800   Clear Word Mark Instruction (Lozenge)
+01900   Clear Storage Instruction (/)
+02000   Halt Instruction (.)
+02100   I/O Instructions (M, L, U, K, F, 4, 2)
+
+
+INDEX REGISTER TESTS
+
+As with the instruction length tests, it is good to disable the
+actual execution of these Add instructions
+
+02200   Index register testing of various sorts, all 15 registers used
+
+02200   A 11111 22222   No indexing
+02211   A 11111+X1  22222+X2    111/1 222K2
+02222   A 33333+X3  44444+X4    333C3 44U44
+02233   A 55555+X5  66666+X6    55VV5 66WO6
+02244   A 77777+X7  88888+X8    77XG7 88Q88
+02255   A 99999+X9  11111+X10   99RZ9 11JJ1
+02266   A 22222+X11 33333+X12   22KB2 33C33
+02277   A 44444+X13 55555+X14   44DU4 55EN5
+02288   A 66666+X15             66FF6
+
+00025   00001 0000A 0000J 11111 1111A 1111J 12345 1234A
+        1234J 00010 00011 00012 00013 00014 00015
+
+
+The addition of the index registers to the addresses, and hence, the expected
+values in the AAR and BAR after index processing, is left as an exercise for
+the reader.  ;-)
+
+INSTRUCTION TESTS (insttest.cor)
+
+These tests generally are taken from the CE Instruction materials or
+principles of operation.  Note that I might have missed some lights
+in some instances.  Also, you should assume a light stays on unless
+NOT shows up later or unless a complementary light (Unit/Body/Extension)
+comes on.
+
+02300   Add Instruction two positive numbers
+        A field 10003 is 099 (no wordmark over A field) (1 of 1099 not used)
+        B field 10006 is 100
+        Result is 199
+
+        After each storage cycle, the results should be:
+
+        A: Fetch 9, Scan 1, Zero Balance, Units position
+        B: Fetch 0, add, result 9, Not Zero Balance
+        A: Fetch 9
+        B: Fetch 0, add, result 9
+        A: Fetch 0
+        B: Fetch WM/1, add, result 1
+
+02311   Add Instruction, positive number larger than negative number
+        A field 10008 is 1P (-17)
+        B field 10011 is 900
+        Result is 883
+
+        A: Fetch P (-7), Scan 1, Zero Balance, Units
+        B: Fetch 0, add, result 3, A Complement, Body, Not Zero Balance
+        A: Fetch WM/1, A Complement, Body
+        B: Fetch 1, add, result 8, Extension
+        B: Fetch 9, add, result 8, Carry Out, NOT overflow
+
+02322   Add Instruction with overflow
+        A field 10013 is 99
+        B field 10015 is 90
+        Result is 89, with Overflow
+
+        A: Fetch 9, Scan 1, Zero Balance, Units
+        B: Fetch 0, add, Result 9, Not Zero Balance, Body
+        A: Fetch WM/9
+        B: Fetch WM/9, add, Result 8, Carry Out, Overflow
+
+
+        NOTE:  Unless Overflow is explicitly cleared, it remains on.  To
+        get rid of it, do a computer reset.  (Program reset is not enough).
+
+02333   Add Instruction, Larger negative number produces Recomplement
+        A field 10017 is 1Q (-18)
+        B field 10020 is 012
+        Result is 1O (-6)
+
+        A: Fetch Q (-8), Scan 1, Zero Balance, Units
+        B: Fetch 2, add, result 4, A Complement, Not Zero Balance, Body
+        A: Fetch WM/1
+        B: Fetch 1, add, result 9, Extension, No Carry
+        B: Fetch 0, add, result 9, A Complement, B Complement, Carry In
+           Start of recomplement cycle: Units, Scan 3
+        B: Store O (-6), sign reversed, Extension, Scan 3, B Complement
+           A Complement turned off (to avoid complementing 0)
+        B: Store 0 B Complement
+        B: Store WM/0
+
+02344   Add Instruction, Single field
+        A, B field 10023 is 015
+
+        A: Fetch 5, Zero Balance, Scan 1, Units
+        B: Fetch 5, add, result 0, Zero Balance, Carry In/Out, Body
+        A: Fetch 1
+        B: Fetch 1, add, result 3, NOT Zero Balance, NOT Carry In/Out
+        A: Fetch WM/0
+        B: Fetch WM/0, add, result 0
+
+02350   Add Instruction, Single field
+        A, B field 10026 is 03R (-39)
+
+        A: Fetch R (-9), Zero Balance, Units, Scan 1
+        B: Fetch R (-9), add, result Q (-8), Not Zero Bal, Body, Carry IN/OUT
+        A: Fetch 3
+        B: Fetch 3, add, sum 7, NOT Carry In/Out
+        A: Fetch WM/0
+        B: Fetch WM/0, add, result WM/0
+
+02356   Add Instruction, Single field
+        A, B field 10028 is 55
+
+        A: Fetch 5, Zero Balance, Units, Scan 1
+        B: Fetch 5, add, sum 0, Zero Balance, Body, Carry In/Out
+        A: Fetch WM/5
+        B: Fetch WM/5, add, sum WM/1, NOT Zero Balance, OVERFLOW, Carry In/Out
+
+		See earlier note on Overflow.
+
+02362   Add Instruction, Single field
+        A, B field 10030, is 5R
+
+        A: Fetch R (-9), Zero Balance, Units, Scan 1
+        B: Fetch R (-9), add, sum Q, Not Zero Balance, Carry In/Out, Body
+        A: Fetch WM/5
+        B: Fetch WM/5, add, sum WM/1, Carry In/Out, OVERFLOW
+
+        See earlier note on Overflow.
+
+        (Also, at this point I also reset the Carry In/Out latches before
+        the first A cycle so that would be less confusing)
+
+02368   Add Instruction, prepare for chain test
+        A field 10032 is 1
+        B field 10036 is 05
+
+        A: Fetch WM/1, Zero Balance, Scan 1, Units
+        B: Fetch 5, add, sum 6, NOT Zero Balance, Extension
+        B: Fetch WM/0, add, sum 0
+
+02379   Add Instruction, chained
+        A field, chained from previous instruction, 10031 is 2
+        B field, chained from previous instruction, 10034 is 04
+
+        D: D cycle?  Extension, Scan N (might be at end of fetch phase)
+        A: Fetch WM/2, Zero Balance, Units, Scan 1
+        B: Fetch 4, add, sum 6, NOT Zero Balance, Extension
+        B: Fetch WM/0,  add, sum WM/0
+
+02380	Add Instruction, Zones in A and B Field test
+		A field, 10041 is  1BLU5  (1 (AB2) (B3) (A4) 5)
+        B field, 10047 is 00|!?1 (0 0 (RM=A0) (B0) (AB0) 1)
+        Correct result is 01SLD6 (0 1 (A2) (B3) (AB4) 6)
+
+        A: Fetch 5, Scan 1, Units, Zero Balance
+        B: Fetch 1, add, result 6, NOT Zero Balance, Body
+        A: Fetch U (A4)
+        B: Fetch ? (AB0), add, result D (AB4)
+        A: Fetch L (B3)
+        B: Fetch ! (B0), add, result L (B3)
+        A: Fetch B (AB2)
+        B: Fetch | (RM=A0), add, result S (A2)
+        A: Fetch WM/1
+        B: Fetch 0, add, restult 1, Extension
+        B: Fetch WM/0, add, result WM/0
+
+
+
+02400   Subtract Instruction
+        A field, 10103 is 109R (1 not used) (effectively -99)
+        B field, 10106 is 100
+
+        A: Fetch R, Scan 1, Units, Zero Balance
+        B: Fetch 0, Add, Sum 9, BOdy, NOT Zero Balance
+        A: Fetch 9
+        B: Fetch 0, add, Sum 9
+        A: Fetch 0
+        B: Fetch WM/1, add, Sum WM/1
+
+        Since we negated the A field, the result is the same as the add
+        located at location 2300
+
+02411   Subtract Instruction
+        A field, 10108 is 17
+        B field, 10111 is 900
+
+        A: Fetch 7, Scan 1, Units, Zero Balance
+        B: Fetch 0, Add, Sum 3, A Complement, Body, Not Zero Balance
+        A: Fetch WM/1
+        B: Fetch 0, add, sum 8, Extension
+        B: Fetch WM/9, add, sum WM/8, Carry Out
+
+        Again, since I reversed the sign of the A field, the result is the
+        same as the add located at 2311.
+
+02422   Subtract Instruction
+        A field, 10113 is 9R (-99)
+        B field, 10115 is 90
+
+        A: Fetch R (-9), Scan 1, Units Zer Balance
+        B: Fetch 0, add, sum 9, body, Not Zero Balance
+        A: Fetch WM/9
+        B: Fetch Wm/9, add, sum WM/8, Carry out, OVERFLOW
+
+        The A complement was left on from the previous subtract.  Since we
+        didn't clear it in the A cycle, it shows up there.  I later modified
+        the code so it would clear A Complement and B Complement before the
+        first A cycle to avoid this effect.
+
+        Again, since I reversed the sign of the A field, the result is the
+        same as the add located at 2322.
+
+        See note under Add regarding Overflow
+
+02433   Subtract Instruction
+        A field, 10117 is 18
+        B field, 10120 is 012
+
+        A: Fetch 8, Scan 1, Units, Zero Balance
+        B: Fetch 2, add, sum 4, Body, A Complement, NOT Zero Balance
+        A: Fetch WM/1
+        B: Fetch 1, add, sum 9, Extension
+        B: Fetch WM/0, add, sum WM/9, SCAN 3, A Complement, B Complement,
+        	CarryIn, UNITS (Begin recomplement cycle)
+        B: (Recomplement) Sum O (-6), Extension, B Complement, NOT A Compl.
+        B: (Recomplement) Sum 0
+        B: (Recomplement) Sum WM/0
+
+02444   Subtract Instruction
+        A field, 10122 is 0K (-2)
+        B field, 10125 is 020
+
+        A: Fetch K (-2), Scan 1, Units, Zero Balance
+        B: Fetch 0, add, sum 2, Body, Not Zero Balance
+        A: Fetch WM/0
+        B: Fetch 2, add, sum 2, Extension
+        B: Fetch WM/0, add, sum WM/0
+
+        Again, the B Complement was a leftover from the previous instruction
+
+02455   Subtract Instruction, single field
+        A, B field, 10128 is 054
+
+        A: Fetch 4, Scan 1,  Units, Zero Balance
+        B: Fetch 4, add, sum 0, Body, A Complement, Carry In/Out, Zero Bal
+        A: Fetch 5
+        B: Fetch 5, add, sum 0, Body, A Complement, Carry In/Out, Zero Balance
+        A: Fetch WM/0
+        B: Fetch WM/0, add, sum 0, Zero Balance, Carry In/Out
+
+02461   Subtract Instruction, single field
+        A, B field, 10131 is 02R (-29)
+
+        A: Fetch R (-9), Scan 1, Units, Zero Balance
+        B: Fetch R (-9), Add, Sum ! (-0), Body, A Complement, Zero Balance
+        A: Fetch 2
+        B: Fetch 2, add, sum 0, Zero Balance
+        A: Fetch WM/0
+        B: Fetch WM/0, add, sum 0, Zero Balance, Carry In/Out
+
+02467   Subtract Instruction, single field
+        A, B field, 10133 is 5R (-59)
+
+        A: Fetch R (-9), Scan 1, Units, Zero Balance
+        B: Fetch R (-9), add, Sum ! (-0), Body, A Complement
+        A: Fetch WM/5
+        B: Fetch Wm/5, add, Sum WM/0, Zero Balance, Carry In/Out
+
+02473   Subtract Instruction, prepare for chain test
+        A field, 10135 is 1
+        B field, 10139 is 53
+
+        A: Fetch WM/1, Scan 1, Units, Zero Balance
+		B: Fetch 3, add, sum 2, Extension, Carry IN/OUT, A Compl, NOT Zero Bal
+        B: Fetch WM/5, add, Sum Wm/5
+
+02484   Subtract Instruction, chained
+        A field, chained from previous instruction, 10134 is 2
+        B field, chained from previous instruction, 10137 is 54
+
+        D: [Carry In/Out], [A Complement], [Extension], Scan N
+        A: Fetch WM/2, Scan 1, Units, Zero Balance
+        B: Fetch 4, add, sum 2, Extension, A Complement, Carry In/Out
+        B: Fetch WM/5, add, sum WM/5
+
+02485	Subtract Instruction, zones in A and B fields test
+		A field, 10144 is  1BLU5 (see corresponding Add) (12345)
+        B field, 10147 is 00|!?1 (see corresponding Add) (00001)
+        Correct Result is 01SLDM (0 1 A2 B3 AB4 B4) (-012344)
+
+        A: Fetch 5, Scan 1, Units, Zero Balance
+        B: Fetch 1, add, result 6, A Complement, NOT Zero Balance
+        A: Fetch U (A4)
+        B: Fetch ? (AB0), add, result E (AB5)
+        A: Fetch L (B3)
+        B: Fetch ! (B0), add, result O (B6)
+        A: Fetch B (AB2)
+        B: Fetch | (RM=A0), add, result X (A7)
+        A: Fetch WM/1
+        B: Fetch 0, add, result 8, Extension
+        B: Fetch WM/0, add, result 9, Carry In, A Compl, B Compl, S3, Units
+           So, going into recomplement cycle we have 98XOE6
+        B: Store M in units position (-4)
+        B: Store D (AB 4)
+        B: Store L (B 3)
+        B: Store S (A 2)
+        B: Store 1
+        B: Store WM/0
+
+
+02500	Zero and Add Instruction, positive
+		A field, 10201 is 01
+        B field, 10204 is 123
+
+        A: Fetch 1, Scan 1, Units, Zero Balance
+        B: Fetch 3, Store A (AB1), Body, NOT Zero Balance
+        A: Fetch WM/0
+        B: Fetch 2, Store 0, Extension
+        B: Fetch WM/1, Store WM/0
+
+02511	Zero and Add Instruction, negative
+		A field, 10206 is 0J (-1)
+        B field, 10209 is 123
+
+        A: Fetch J, Scan 1, Units, Zero Balance
+        B: Fetch 3, Store J, Body, NOT Zero Balance
+        A: Fetch WM/0
+        B: Fetch 2, Store 0, Extension
+        B: Fetch WM/1, Store WM/0
+
+02522	Zero and Add Instruction, Check that zones are cleared
+		A field, 10213 is AKT4
+        B field, 10217 is JSLX
+        Result should be  123D (Zones ignored except units)
+
+        A: Fetch 4, Scan 1, Units, Zero Balance
+        B: Fetch X, Store D (AB4), Body, Not Zero Balance
+        A: Fetch T
+        B: Fetch L, Store 3
+        A: Fetch K
+        B: Fetch S, Store 2
+        A: Fetch WM/A
+        B: Fetch WM/J, Store WM/1
+
+02533	Zero and Add Instruction, Check some values with 8 bit
+		A field, 10223 is b=\:>(radical)
+        B field, 10229 is 000000
+        Result should be  03656G
+
+        A: Fetch (radical) (8421), Scan 1, Units, Zero Balance
+        B: Fetch 0, Store G (BA421)
+        A: Fetch > (842)
+        B: Fetch 0, Store 6
+        A: Fetch : (841)
+        B: Fetch 0, Store 5
+        A: Fetch \ (A842)
+        B: Fetch 0, Store 6
+        A: Fetch = (821)
+        B: Fetch 0, Store 3
+        A: Fetch WM/(blank)
+        B: Fetch WM/0, Store WM/0
+
+02544	Zero and Add Instruction, Same value as above, but single field
+		A and B field, 10223, still has b=\:>(radical) at this point
+
+        Sequence is same as above, since B field value is irrelevant, and
+        A and B addresses have the same address.
+
+02550	Zero and Add Instruction, Prepare for Chain Test
+		A field, 10233 is 02
+        B field, 10239 is 456
+
+        A: Fetch 2, Scan 1, Units, Zero Balance
+        B: Fetch 6, Store B (AB2), Body, NOT Zero Balance
+        A: Fetch WM/0
+        B: Fetch 5, Store 0, Extension
+        B: Fetch WM/4, Store WM/0
+
+02561	Zero and Add Instruction, Chained from above
+		A field, 10231 is 01
+        B field, 10236 is 123
+
+        D: AAR=10231, BAR=10236, Scan N, Extension (from previous instrudtion)
+        A: Fetch 1, Scan 1, Units, Zero Balance
+        B: Fetch 3, Store A (AB1), Body, NOT Zero Balance
+        A: Fetch WM/0
+        B: Fetch 2, Store 0, Extension
+        B: Fetch WM/1, Store WM/0
+
+Since Zero and Subtract is just a trivial test inside of the same routine,
+we test only those parts here...
+
+02562	Zero and Subtract, Positive A field, negative result
+		A field, 10241 is 01
+        B field, 10244 is 123
+
+        A: Fetch 1, Scan 1, Units, Zero Balance
+        B: Fetch 3, Store J (B1), Body, Not Zero Balance
+        A: Fetch WM/0
+        B: Fetch 2, Store 0, Extension
+        B: Fetch WM/1, Store WM/0
+
+02573	Zero and Subtract, Negative A field, positive result
+		A field, 10246 is 0J
+        B field, 10249 is 123
+
+        A: Fetch J, Scan 1, Units, Zero Balance
+        B: Fetch 3, Store A (AB1), Body, Not Zero Balance
+        A: Fetch WM/0
+        B: Fetch 2, Store 0, Extension
+        B: Fetch WM/1, Store WM/0
+
+02584	Zero and Subtract, Single field, positive
+		A and B field, 10253 is 1224
+
+        A: Fetch 4, Scan 1, Units, Zero Balance
+        B: Fetch 4, Store M (B4), Body, NOT Zero Balance
+        A: Fetch 2
+        B: Fetch 2, Store 2
+        A: Fetch 2
+        B: Fetch 2, Store 2
+        A: Fetch WM/1
+        B: Fetch WM/1, Store WM/1
+
+02590	Zero and Subtract, Single field, negative
+		A and B field, 10257 is 123M (-1234)
+
+        A: Fetch M, Scan 1, Units, Zero Balance
+        B: Fetch M, Store D (AB4), Body, NOT Zero Balance
+        A: Fetch 3
+        B: Store 3
+        A: Fetch 2
+		B: Store 2
+        A: Fetch WM/1
+        B: Fetch WM/1, Store WM/1
+
+        
+02600	Multiply 2 fields
+        A (10308): 18J 		B (10305): 8Bxxxx
+
+02611   Multiply 2 fields
+        A (10320): 1625     B (10316): 203xxxxx
+
+02622   Multiply 2 fields
+        A (10330): 22       B (10328): 19910xxx
+
+02633   Multiply 2 fields
+        A (10340): 1625     B (10337): 7xxxxx
+
+02700   Divide 2 fields                   B
+        A (10401): 8N       B (10405): 000720I
+
+02711   Divide 2 fields                   B
+        A (10410): 1B       B (10414): 00014G
+
+02722   Divide 2 fields                   B
+        A (10418): 6N       B (10422): 0001498?
+
+02733   Divide 2 fields                     B
+        A (10430): 100!     B (10436): 00000150!
+
+02744   Divide 2 fields                  B
+        A (10440): 9        B (10443): 009?
+
+02755   Divide 2 fields, puposely mis addressing, causing an overflow
+                                          B
+        A (10445): 9        B (10449): 009?
+
+02800   Move D=J (RL, Numerics, Stop on BWM)
+        A (10501): (v)AB    B (10503): (v)01    Result: (10503) (v)12
+
+02812   Move D=K (RL, Zones, Stop on BWM)
+        A (10505): (v)AJ    B (10507): (v)01    Result: (10507) (v)?J
+
+02824   Move D=L (RL, Chars, Stop on BWM)
+        A (10509): (v)AB    B (10511): (v)01    Result: (10511) (v)AB
+
+02836   Move D=P (RL, Char+WM, Stop on BWM)
+        A (10513): (v)A(v)B B (10515): (v)01    Result: (10515) (v)A(v)B
+
+02848   Move D=T (RL, SCAN, Stop on BWM)
+        A (10517): (v)AB    B (10519): (v)01    Result: (10519) (v)01
+
+02860   Move D=3 (RL, Char, Stop after 1 char)
+        A (10521): (v)AB    B (10523): (v)01    Result: (10523) (v)0B
+
+02872   Move D=L (RL, Char, Stop on BWM)
+        A (10526): (v)ABC   B (10528): (v)01    Result: (10528) (v)BC
+
+02884   Move D=T (RL, Char, Stop on AWM)
+        A (10530): (v)AB    B (10533): (v)012   Result: (10533) (v)0AB
+
+02896   Move D=C (RL, Char, Stop on AWM or BWM)
+        A (10535): (v)AB    B (10538): (v)012   Result: (10538) (v)0AB
+
+02908   Move D=C (RL, Char, Stop on AWM or BWM)
+        A (10541): (v)ABC   B (10543): (v)01    Result: (10543) (v)BC
+
+02920   Move D=, (LR, Char, Stop on A RM)
+        A (10544): (v)AB(v)C(rm)    B (10548): 012345
+        Result (10548): ABC(rm)45
+
+02932   Move D=$ (LR, Char, Stop on A GMWM)
+        A (10554): (v)AB(v)C(v)(gm) B (10558): 012345
+        Result (10558): ABC(gm)45
+
+02944   Move D=. (LR, Char, Stop on A RM or GMWM)
+        A (10564): (v)AB(v)C(v)(gm) B (10568): 012345
+        Result (10568): ABC(gm)45
+
+02956   Move D== (LR, Char, Stop on A WM or B WM)
+        A (10574): AB(v)C   B (10577): 0123(v)4
+        Result (10577): ABC3(v)4
+
+02968   Move D== (LR, Char, Stop on A WM or B WM)
+        A (10582): ABCD     B (10586): 01(v)2
+        Result (10586): AB(v)C
+
