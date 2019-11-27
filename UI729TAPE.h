@@ -1,18 +1,12 @@
 //---------------------------------------------------------------------------
 #ifndef UI729TAPEH
 #define UI729TAPEH
+//---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.Dialogs.hpp>
 #include <Vcl.StdCtrls.hpp>
-//---------------------------------------------------------------------------
-// #include <Classes.hpp> (From Borland C++ 5)
-#include <vcl.Controls.hpp>
-#include <vcl.StdCtrls.hpp>
-#include <vcl.Forms.hpp>
-#include <vcl.ComCtrls.hpp>
-#include <vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 
 /* 

@@ -1,18 +1,12 @@
 //---------------------------------------------------------------------------
 #ifndef UI1415LH
 #define UI1415LH
+//---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.StdCtrls.hpp>
-//---------------------------------------------------------------------------
-//	#include <vcl\Classes.hpp>  (From Borland C++ 5)
-#include <vcl.Controls.hpp>
-#include <vcl.StdCtrls.hpp>
-#include <vcl.Forms.hpp>
-#include <vcl.ComCtrls.hpp>
-#include <vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 
 /* 

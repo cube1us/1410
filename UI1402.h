@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #ifndef UI1402H
 #define UI1402H
+//---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ComCtrls.hpp>
@@ -27,13 +28,6 @@
  *  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// #include <Classes.hpp>  (From Borland C++ 5)
-#include <vcl.Controls.hpp>
-#include <vcl.StdCtrls.hpp>
-#include <vcl.Forms.hpp>
-#include <vcl.Buttons.hpp>
-#include <vcl.Dialogs.hpp>
-#include <vcl.ComCtrls.hpp>
 //---------------------------------------------------------------------------
 class TFI1402 : public TForm
 {

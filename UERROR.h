@@ -2,10 +2,15 @@
 #ifndef UERRORH
 #define UERRORH
 //---------------------------------------------------------------------------
+// #include <vcl\Classes.hpp>  (From Borland C++ 5)
+#include <vcl.Controls.hpp>
+#include <vcl.StdCtrls.hpp>
+#include <vcl.Forms.hpp>
+//---------------------------------------------------------------------------
 
-/* 
+/*
  *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -17,15 +22,10 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  (file COPYING.txt) along with this program.  
+ *  (file COPYING.txt) along with this program.
  *  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// #include <vcl\Classes.hpp>  (From Borland C++ 5)
-#include <vcl.Controls.hpp>
-#include <vcl.StdCtrls.hpp>
-#include <vcl.Forms.hpp>
-//---------------------------------------------------------------------------
 class TFError : public TForm
 {
 __published:	// IDE-managed Components
