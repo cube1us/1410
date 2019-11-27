@@ -241,8 +241,8 @@ public:
 	TWOOF5() { b = 0; }
     TWOOF5(BCD bcd) { b = bcd_to_two_of_five_table[bcd.ToInt() & 0x7f]; }
     TWOOF5(int i) { b = bin_to_two_of_five_table[i]; }
-	inline ToInt() { return two_of_five_to_bin_table[b]; }
-    inline ToBCD() {
+	inline int ToInt() { return two_of_five_to_bin_table[b]; }
+    inline int ToBCD() {
     	return(ascii_bcd['0' + ToInt()]);
     };
 };

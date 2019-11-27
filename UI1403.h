@@ -1,13 +1,18 @@
 //---------------------------------------------------------------------------
 #ifndef UI1403H
 #define UI1403H
+#include <System.Classes.hpp>
+#include <Vcl.Buttons.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.Dialogs.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
-#include <Classes.hpp>
-#include <Controls.hpp>
-#include <StdCtrls.hpp>
-#include <Forms.hpp>
-#include <Buttons.hpp>
-#include <Dialogs.hpp>
+// #include <vcl\Classes.hpp>  (From Borland C++ 5)
+#include <vcl.Controls.hpp>
+#include <vcl.StdCtrls.hpp>
+#include <vcl.Forms.hpp>
+#include <vcl.Buttons.hpp>
+#include <vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 
 /* 

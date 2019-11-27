@@ -22,19 +22,19 @@
 
 #include <dir.h>
 #include <stdio.h>
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UIREADER.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UIREADER.h"
 #include "UIHOPPER.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-#include "UIPUNCH.H"
-#include "UI1402.H"
-#include "UI1410DEBUG.H"
+#include "UIPUNCH.h"
+#include "UI1402.h"
+#include "UI1410DEBUG.h"
 
 //  TCard Class Implementation
 

@@ -24,19 +24,19 @@
 #include <stdio.h>
 #include <assert.h>
 #include <errno.h>
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
 #include "UITAPEUNIT.h"
 #include "UITAPETAU.h"
-#include "UI729TAPE.H"
+#include "UI729TAPE.h"
 
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-#include "UI1410DEBUG.H"
+#include "UI1410DEBUG.h"
 
 //  1410 Tape Adapter Unit Implementation.  Follows I/O Device Interface.
 

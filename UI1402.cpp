@@ -23,12 +23,12 @@
 #include <dir.h>
 #include <stdio.h>
 #include <assert.h>
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UIREADER.H"
-#include "UIPUNCH.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UIREADER.h"
+#include "UIPUNCH.h"
 #include "UI1402.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

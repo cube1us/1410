@@ -23,14 +23,14 @@
 #include <dir.h>
 #include <stdio.h>
 #include <assert.h>
-#include "UBCD.H"
-#include "UI1410CPUT.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
 #include "UITAPEUNIT.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-#include "UI1410DEBUG.H"
+#include "UI1410DEBUG.h"
 
 #define TAPEDEBUG   1
 

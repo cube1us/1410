@@ -24,9 +24,9 @@
 
 #include <dir.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
 #include "UI1410CHANNEL.h"
 
 //---------------------------------------------------------------------------
@@ -35,10 +35,10 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "UI1410DEBUG.H"
-#include "UI1410INST.H"
-#include "UI1415IO.H"
-#include "UI1415CE.H"
+#include "UI1410DEBUG.h"
+#include "UI1410INST.h"
+#include "UI1415IO.h"
+#include "UI1415CE.h"
 
 //	Constructor.  Initializes state
 

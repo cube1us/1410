@@ -23,17 +23,17 @@
 #include <dir.h>
 #include <stdio.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
 #include "UIPRINTER.h"
 #include "UI1403.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 
-#include "UI1410DEBUG.H"
+#include "UI1410DEBUG.h"
 
 TFI1403 *FI1403;
 //---------------------------------------------------------------------------

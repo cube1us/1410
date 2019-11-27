@@ -25,18 +25,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI1410INST.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI1410INST.h"
 #include "UIPRINTER.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-#include "UI1403.H"
-#include "UI1410DEBUG.H"
+#include "UI1403.h"
+#include "UI1410DEBUG.h"
 
 //  Printer Adapter Unit Implementation.  Follows I/O Device Interface.
 

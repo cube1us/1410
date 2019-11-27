@@ -57,7 +57,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib;</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -242,16 +242,16 @@
             <DependentOn>UITAPEUNIT.h</DependentOn>
             <BuildOrder>25</BuildOrder>
         </CppCompile>
-        <FormResources Include="UERROR.dfm"/>
-        <FormResources Include="UI729TAPE.dfm"/>
-        <FormResources Include="UI1402.dfm"/>
-        <FormResources Include="UI1403.dfm"/>
-        <FormResources Include="UI1410DEBUG.dfm"/>
-        <FormResources Include="UI1410PWR.dfm"/>
         <FormResources Include="UI1415CE.dfm"/>
         <FormResources Include="UI1415IO.dfm"/>
         <FormResources Include="UI1415L.dfm"/>
+        <FormResources Include="UI1410PWR.dfm"/>
+        <FormResources Include="UI729TAPE.dfm"/>
+        <FormResources Include="UI1402.dfm"/>
+        <FormResources Include="UI1403.dfm"/>
         <FormResources Include="UI14101.dfm"/>
+        <FormResources Include="UERROR.dfm"/>
+        <FormResources Include="UI1410DEBUG.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

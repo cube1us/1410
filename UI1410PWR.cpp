@@ -17,17 +17,17 @@
 */
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include <dir.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI14101.H"
-#include "UI1415IO.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI14101.h"
+#include "UI1415IO.h"
 #include "UI1410PWR.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.dfm"

@@ -17,7 +17,7 @@
 */
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
 USEFORM("UERROR.cpp", FError);
@@ -34,17 +34,17 @@ USEFORM("UI14101.cpp", FI14101);
 #include <dir.h>
 #include <stdio.h>
 
-#include "UBCD.H"
-#include "UI14101.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI1410DEBUG.H"
+#include "ubcd.h"
+#include "UI14101.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI1410DEBUG.h"
 #include "UI1410CPU.h"
-#include "UI1415IO.H"
-#include "UI1410PWR.H"
+#include "UI1415IO.h"
+#include "UI1410PWR.h"
 
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 
 	try

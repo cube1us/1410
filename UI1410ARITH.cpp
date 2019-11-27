@@ -19,7 +19,7 @@
 //	Arithmetic Instruction execution routines
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include "UI1410ARITH.h"
@@ -29,12 +29,12 @@
 #include <dir.h>
 #include <stdio.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI1410DEBUG.H"
-#include "UI1410INST.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI1410DEBUG.h"
+#include "UI1410INST.h"
 
 void T1410CPU::InstructionArith()
 {
@@ -840,7 +840,7 @@ void T1410CPU::InstructionDivide()
     //  instruction routines currently show scan and sub_scan for the
     //  *next* cycle, which confuses debugging.
 
-    static MultiplyDivideLastLatch;
+    static bool MultiplyDivideLastLatch;
 
     static struct {
         char cycle;

@@ -1,11 +1,15 @@
 //---------------------------------------------------------------------------
 #ifndef UI1415IOH
 #define UI1415IOH
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
-#include <vcl\Classes.hpp>
-#include <vcl\Controls.hpp>
-#include <vcl\StdCtrls.hpp>
-#include <vcl\Forms.hpp>
+// 	#include <vcl\Classes.hpp>   (From Borland C++ 5)
+#include <vcl.Controls.hpp>
+#include <vcl.StdCtrls.hpp>
+#include <vcl.Forms.hpp>
 //---------------------------------------------------------------------------
 
 /* 
@@ -28,7 +32,7 @@
 
 //	1415 Console User Interface
 
-#include <vcl\ExtCtrls.hpp>
+#include <vcl.ExtCtrls.hpp>
 
 #define CONSOLE_IDLE	1			// Console is idle
 #define CONSOLE_NORMAL	2			// Normal Read Mode input

@@ -19,10 +19,10 @@
 //	This Unit defines the behavior of the 1410 Light status display
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 
-#include "UBCD.H"
+#include "ubcd.h"
 #include "UI1415L.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.dfm"

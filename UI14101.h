@@ -1,14 +1,17 @@
 //---------------------------------------------------------------------------
 #ifndef UI14101H
 #define UI14101H
+#include <System.Classes.hpp>
+#include <Vcl.Dialogs.hpp>
+#include <Vcl.Menus.hpp>
 //---------------------------------------------------------------------------
-#include <vcl\Classes.hpp>
-#include <vcl\Controls.hpp>
-#include <vcl\StdCtrls.hpp>
-#include <vcl\Forms.hpp>
-#include <vcl\ExtCtrls.hpp>
-#include <vcl\Menus.hpp>
-#include <vcl\Dialogs.hpp>
+// #include <vcl\Classes.hpp>  (From Borland C++ 5)
+#include <vcl.Controls.hpp>
+#include <vcl.StdCtrls.hpp>
+#include <vcl.Forms.hpp>
+#include <vcl.ExtCtrls.hpp>
+#include <vcl.Menus.hpp>
+#include <vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 
 /* 

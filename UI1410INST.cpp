@@ -17,24 +17,24 @@
 */
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include <assert.h>
 #include <dir.h>
 #include <stdio.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI1410DEBUG.H"
-#include "UI1410INST.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI1410DEBUG.h"
+#include "UI1410INST.h"
 
 //---------------------------------------------------------------------------
 
-#include "UI1415IO.H"
-#include "UI1415L.H"
+#include "UI1415IO.h"
+#include "UI1415L.h"
 
 //	This module handles Instruction Decode and Execution in the CPU
 

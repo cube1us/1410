@@ -20,7 +20,7 @@
 //	types for the 1410 emulator
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include <assert.h>
@@ -28,26 +28,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "UBCD.H"
+#include "ubcd.h"
 #include "UI1410CPUT.h"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI14101.H"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI14101.h"
 #include "UI1415L.h"
-#include "UI1415IO.H"
+#include "UI1415IO.h"
 #include "UI1415CE.h"
-#include "UITAPEUNIT.H"
-#include "UITAPETAU.H"
-#include "UI729TAPE.H"
-#include "UIPRINTER.H"
-#include "UI1403.H"
-#include "UIREADER.H"
-#include "UIPUNCH.H"
-#include "UI1402.H"
+#include "UITAPEUNIT.h"
+#include "UITAPETAU.h"
+#include "UI729TAPE.h"
+#include "UIPRINTER.h"
+#include "UI1403.h"
+#include "UIREADER.h"
+#include "UIPUNCH.h"
+#include "UI1402.h"
 #include "UI1410PWR.h"
 #include "UI1410DEBUG.h"
 #include "UI1410CPU.h"
-#include "UI1410INST.H"
+#include "UI1410INST.h"
 
 
 //---------------------------------------------------------------------------
@@ -55,9 +55,9 @@
 
 //	Declarations for Borland VCL controls
 
-#include <vcl\Classes.hpp>
-#include <vcl\Controls.hpp>
-#include <vcl\StdCtrls.hpp>
+//	#include <vcl\Classes.hpp>  (From Borland C++ 5)
+#include <vcl.Controls.hpp>
+#include <vcl.StdCtrls.hpp>
 
 //	Table of execute routines.  These have to be closures to inherit
 //	the object pointer (CPU).  Closures have to be initialized at runtime.

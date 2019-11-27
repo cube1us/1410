@@ -1,11 +1,14 @@
 //---------------------------------------------------------------------------
 #ifndef UI1410DEBUGH
 #define UI1410DEBUGH
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
-#include <vcl\Classes.hpp>
-#include <vcl\Controls.hpp>
-#include <vcl\StdCtrls.hpp>
-#include <vcl\Forms.hpp>
+//  #include <vcl\Classes.hpp>  (From Borland C++ 5)
+#include <vcl.Controls.hpp>
+#include <vcl.StdCtrls.hpp>
+#include <vcl.Forms.hpp>
 //---------------------------------------------------------------------------
 
 /* 

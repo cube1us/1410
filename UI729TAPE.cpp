@@ -24,12 +24,12 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UITAPEUNIT.H"
-#include "UITAPETAU.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UITAPEUNIT.h"
+#include "UITAPETAU.h"
 
 #include "UI729TAPE.h"
 //---------------------------------------------------------------------------

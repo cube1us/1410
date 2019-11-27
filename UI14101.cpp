@@ -19,15 +19,15 @@
 //	This Unit defines the behavior of the 1410 emulator main form
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include <dir.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
 #include "UI14101.h"
 //---------------------------------------------------------------------------
 #pragma resource "*.dfm"

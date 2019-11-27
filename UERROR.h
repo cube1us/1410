@@ -21,10 +21,10 @@
  *  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include <vcl\Classes.hpp>
-#include <vcl\Controls.hpp>
-#include <vcl\StdCtrls.hpp>
-#include <vcl\Forms.hpp>
+// #include <vcl\Classes.hpp>  (From Borland C++ 5)
+#include <vcl.Controls.hpp>
+#include <vcl.StdCtrls.hpp>
+#include <vcl.Forms.hpp>
 //---------------------------------------------------------------------------
 class TFError : public TForm
 {

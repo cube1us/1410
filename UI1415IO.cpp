@@ -20,7 +20,7 @@
 //	associated things
 
 //---------------------------------------------------------------------------
-#include <vcl\vcl.h>
+#include <vcl.h>
 #pragma hdrstop
 
 #include <dir.h>
@@ -28,8 +28,8 @@
 
 #include "ubcd.h"
 #include "UI1410CPUT.h"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
 #include "UI1410DEBUG.h"
 #include "UI1415IO.h"
 
@@ -59,7 +59,7 @@ __fastcall TFI1415IO::TFI1415IO(TComponent* Owner)
 void __fastcall TFI1415IO::I1415IOKeyPress(TObject *Sender, char &Key)
 {
     BCD bcd_key;
-    static last_key_was_wm;
+    static bool last_key_was_wm;
 
 	switch(Key) {
     case KBD_RADICAL:

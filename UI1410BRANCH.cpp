@@ -29,13 +29,13 @@
 #include <dir.h>
 #include <stdio.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UIPRINTER.H"
-#include "UI1410DEBUG.H"
-#include "UI1410INST.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UIPRINTER.h"
+#include "UI1410DEBUG.h"
+#include "UI1410INST.h"
 
 void T1410CPU::InstructionBranchCond()
 {

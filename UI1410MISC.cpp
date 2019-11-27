@@ -30,12 +30,12 @@
 #include <stdio.h>
 #include <sys/timeb.h>
 
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI1410DEBUG.H"
-#include "UI1410INST.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI1410DEBUG.h"
+#include "UI1410INST.h"
 
 void T1410CPU::InstructionStoreAddressRegister() {
 

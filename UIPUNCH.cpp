@@ -24,17 +24,17 @@
 #include <dir.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "UBCD.H"
-#include "UI1410CPUT.H"
-#include "UIHOPPER.H"
-#include "UI1410CHANNEL.H"
-#include "UI1410INST.H"
+#include "ubcd.h"
+#include "UI1410CPUT.h"
+#include "UIHOPPER.h"
+#include "UI1410CHANNEL.h"
+#include "UI1410INST.h"
 #include "UIPUNCH.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-#include "UI1410DEBUG.H"
+#include "UI1410DEBUG.h"
 
 //  Constructor
 
@@ -147,8 +147,8 @@ void TPunch::DoOutput() {
         PunchStatus |= IOCHDATACHECK;
     }
 
-    //  In Load MOde, we have to turn Wordmarks into Word Separators.  The
-    //  addiiton of the Word Separator makes a Wrong Length Record quite
+	//  In Load Mode, we have to turn Wordmarks into Word Separators.  The
+	//  addition of the Word Separator makes a Wrong Length Record quite
     //  likely!
 
     if(Channel -> LoadMode && ch_char.TestWM()) {
