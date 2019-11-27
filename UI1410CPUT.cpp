@@ -1303,7 +1303,7 @@ T1410CPU::T1410CPU()
         new T1415Console(CONSOLE_IO_DEVICE,CPU -> Channel[CHANNEL1]);
 
     FI1403 -> PrinterIODevice =
-        new TPrinter(PRINTER_IO_DEVICE, CPU -> Channel[CHANNEL1]);
+		new T1403Printer(PRINTER_IO_DEVICE, CPU -> Channel[CHANNEL1]);
 
     CPU -> Channel[CHANNEL1] -> Hopper[0] = new THopper();
     CPU -> Channel[CHANNEL1] -> Hopper[1] = new THopper();

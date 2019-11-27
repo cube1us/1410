@@ -29,36 +29,36 @@
 
 //  Printer Adapter Unit (1414)
 
-class TPrinter : public T1410IODevice {
+class T1403Printer : public T1410IODevice {
 
 protected:
 
-    int PrintStatus;                            //  Printer Status for Channel
-    bool Ready;                                 //  True if ready to go
-    bool CarriageCheck;                         //  True if runaway forms
-    TBusyDevice *BusyEntry;                     //  Used to set delays
-    int BufferPosition;                         //  Current output column
+	int PrintStatus;                            //  Printer Status for Channel
+	bool Ready;                                 //  True if ready to go
+	bool CarriageCheck;                         //  True if runaway forms
+	TBusyDevice *BusyEntry;                     //  Used to set delays
+	int BufferPosition;                         //  Current output column
 
-    int SkipLines;                              //  Deferred Skip in lines
-    int SkipChannel;                            //  Deferred Skip to Channel
-    bool CarriageAdvance;                       //  True to auto advance carriage
+	int SkipLines;                              //  Deferred Skip in lines
+	int SkipChannel;                            //  Deferred Skip to Channel
+	bool CarriageAdvance;                       //  True to auto advance carriage
 
-    int FormLength;                             //  Length of current form
-    int FormLine;                               //  Current line in form
+	int FormLength;                             //  Length of current form
+	int FormLine;                               //  Current line in form
 
-    TFileStream *ccfd;                          //  Carriage Control File
-    int CarriageTape[PRINTMAXFORM];             //  Carriage tape data
-    char ccline[PRINTCCMAXLINE];
+	TFileStream *ccfd;                          //  Carriage Control File
+	int CarriageTape[PRINTMAXFORM];             //  Carriage tape data
+	char ccline[PRINTCCMAXLINE];
 
-    char FileName[MAXPATH];                     //  File name, if to file
-    TFileStream *fd;                            //  File FDs for print, CC file
+	char FileName[MAXPATH];                     //  File name, if to file
+	TFileStream *fd;                            //  File FDs for print, CC file
 
 public:
 
-    TPrinter(int devicenum, T1410Channel *Channel);
+	T1403Printer(int devicenum, T1410Channel *Channel);
 
-    inline bool IsReady() { return(Ready); }
-    inline bool IsBusy() { return BusyEntry -> TestBusy(); }
+	inline bool IsReady() { return(Ready); }
+	inline bool IsBusy() { return BusyEntry -> TestBusy(); }
 
     void Start();                               //  Called from UI Start Button
     void Stop();                                //  Called from UI Stop Button

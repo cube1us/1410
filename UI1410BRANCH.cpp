@@ -111,20 +111,20 @@ void T1410CPU::InstructionBranchCond()
     case OP_MOD_SYMBOL_9:
         BranchLatch =
            Channel[CHANNEL1] -> GetIODevice(PRINTER_IO_DEVICE) != NULL &&
-           ((TPrinter*)(Channel[CHANNEL1] -> GetIODevice(PRINTER_IO_DEVICE))) ->
-                CarriageChannelTest(9);
-        break;
+		   ((T1403Printer*)(Channel[CHANNEL1] -> GetIODevice(PRINTER_IO_DEVICE))) ->
+				CarriageChannelTest(9);
+		break;
 
-    case OP_MOD_SYMBOL_AT:
-        BranchLatch =
-           Channel[CHANNEL1] -> GetIODevice(PRINTER_IO_DEVICE) != NULL &&
-           ((TPrinter *)(Channel[CHANNEL1] -> GetIODevice(PRINTER_IO_DEVICE))) ->
-                CarriageChannelTest(12);
-        break;
+	case OP_MOD_SYMBOL_AT:
+		BranchLatch =
+		   Channel[CHANNEL1] -> GetIODevice(PRINTER_IO_DEVICE) != NULL &&
+		   ((T1403Printer *)(Channel[CHANNEL1] -> GetIODevice(PRINTER_IO_DEVICE))) ->
+				CarriageChannelTest(12);
+		break;
 
-    default:
-        ; //  Bad 'd' character - do nothing.
-    }
+	default:
+		; //  Bad 'd' character - do nothing.
+	}
 
     if(BranchLatch) {                               //  Branching?
         ScanRing -> Set(SCAN_N);                    //  Set to No Scan

@@ -81,7 +81,7 @@ public:		// User declarations
     bool EndofLine();
     bool NextLine();
 
-    TPrinter *PrinterIODevice;
+    T1403Printer *PrinterIODevice;
 
 };
 //---------------------------------------------------------------------------
