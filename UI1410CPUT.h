@@ -106,7 +106,7 @@ public:
 
 private:
 
-    TBusyDevice *NextBusyDevice;            //  Next entry in the list
+	TBusyDevice *NextBusyDevice;            //  Next entry in the list
     long BusyTime;                          //  How long to be busy for
 
 public:
@@ -142,7 +142,7 @@ public:
         display = func;
     }
 
-    virtual void OnComputerReset() { ; }	// These have no state to reset
+	virtual void OnComputerReset() { ; }	// These have no state to reset
     virtual void OnProgramReset() { ; }		// These have no state to reset
 
     void Display() {
@@ -178,7 +178,7 @@ public:
     virtual void OnComputerReset();		// Define Computer Reset behavior now
     virtual void OnProgramReset();		// Define Program Reset behavior now too
 
-    void Display();						// Define display behavior
+	void Display();						// Define display behavior
     void LampTest(bool b);				// Define lamp test behavior.
 
     //	All you can really do with latches is set/reset/test them
@@ -214,7 +214,7 @@ public:
     void OnComputerReset();
     void OnProgramReset();
     void Display();
-    void LampTest(bool b);
+	void LampTest(bool b);
 
     //	The real meat of the Ring Counter class
 
@@ -250,7 +250,7 @@ public:
 	TRegister() { value = BITC; DoesProgramReset = true; lampER = 0; lamps = 0; }
     TRegister(bool b) { value = BITC; DoesProgramReset = b; lampER = 0; lamps = 0; }
     TRegister(int i) { value = i; DoesProgramReset = true; lampER = 0; lamps = 0; }
-    TRegister(int i, bool b) { value = i; DoesProgramReset = b; lampER = 0; lamps = 0; }
+	TRegister(int i, bool b) { value = i; DoesProgramReset = b; lampER = 0; lamps = 0; }
 
     inline void OnComputerReset() { Reset(); }
     inline void Reset() { value = BITC; }
@@ -344,8 +344,12 @@ public:
     	Reset();
     }
 
-    inline BCD Select(enum TAChannelSelect sel);	// Select input to A Channel
-    inline BCD Select();					// Use whatever was last selected
+	// Old junk?  inline BCD Select(enum TAChannelSelect sel);	// Select input to A Channel
+	// Old junk?  inline BCD Select();					// Use whatever was last selected
+
+	BCD Select(enum TAChannelSelect sel);
+	BCD Select();
+
     inline enum TAChannelSelect Selected() { return AChannelSelect; }
 
     inline void Reset() { AChannelSelect = A_Channel_None; }
@@ -394,7 +398,7 @@ private:
 
     bool AsmChannelCharSet;     //  True if value set to a special char
 
-    TLabel *AssmLamps[8];
+	TLabel *AssmLamps[8];
     TLabel *AssmComplLamps[8];
     TLabel *AssmERLamp;
 
@@ -538,7 +542,7 @@ public:
 
     //	Indicators
 
-    TDisplayIndicator *OffNormal;			// OFF NORMAL Indicator
+	TDisplayIndicator *OffNormal;			// OFF NORMAL Indicator
 
     //	Ring Counters
 
@@ -574,7 +578,7 @@ public:
     TDisplayLatch *BRegisterSetCheck;		// B register failed to reset
     TDisplayLatch *OpRegisterSetCheck;		// Op register failed to set
     TDisplayLatch *OpModifierSetCheck;		// Op modifier failed to set
-    TDisplayLatch *ACharacterSelectCheck;	// Incorrect A channel gating
+	TDisplayLatch *ACharacterSelectCheck;	// Incorrect A channel gating
     TDisplayLatch *BCharacterSelectCheck;	// Incorrect B channel geting
 
     TDisplayLatch *IOInterlockCheck;		// Program did not check I/O
@@ -585,7 +589,7 @@ public:
     //	Switches
 
     enum TMode {								// Mode switch, values must match
-    	MODE_RUN = 0, MODE_DISPLAY = 1, MODE_ALTER = 2,
+		MODE_RUN = 0, MODE_DISPLAY = 1, MODE_ALTER = 2,
     	MODE_CE = 3, MODE_IE = 4, MODE_ADDR = 5
     } Mode;
 
@@ -593,9 +597,9 @@ public:
     	ADDR_ENTRY_I = 0, ADDR_ENTRY_A = 1, ADDR_ENTRY_B = 2,
         ADDR_ENTRY_C = 3, ADDR_ENTRY_D = 4, ADDR_ENTRY_E = 5,
         ADDR_ENTRY_F = 6
-    } AddressEntry;
+	} AddressEntry;
 
-    //	The entry below is for the state of the 1415 Storage Scan SWITCH
+	//	The entry below is for the state of the 1415 Storage Scan SWITCH
     //	(The storage scan modification mode is in the Ring ScanRing)
 
     enum TStorageScan {

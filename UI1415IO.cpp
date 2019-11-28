@@ -216,40 +216,40 @@ bool TFI1415IO::SetState(int s)
         break;
     case CONSOLE_ADDR:
     	InqReq -> Enabled = false;
-        InqRlse -> Enabled = false;
+		InqRlse -> Enabled = false;
         InqCancel -> Enabled = false;
         WordMark -> Enabled = false;
         switch(CPU -> AddressEntry) {
-        case CPU -> ADDR_ENTRY_I:
+		case T1410CPU::ADDR_ENTRY_I:
         	Console_AR = CPU -> I_AR;
             break;
-        case CPU -> ADDR_ENTRY_A:
-        	Console_AR = CPU -> A_AR;
-            break;
-        case CPU -> ADDR_ENTRY_B:
-        	Console_AR = CPU -> B_AR;
-            break;
-        case CPU -> ADDR_ENTRY_C:
-        	Console_AR = CPU -> C_AR;
-            break;
-        case CPU -> ADDR_ENTRY_D:
-        	Console_AR = CPU -> D_AR;
-            break;
-        case CPU -> ADDR_ENTRY_E:
-        	Console_AR = CPU -> E_AR;
-            break;
-        case CPU -> ADDR_ENTRY_F:
-        	Console_AR = CPU -> F_AR;
-            break;
-        default:
-        	DEBUG("1415IO: Invalid CPU Address Entry case: %d",CPU->AddressEntry);
-            Console_AR = NULL;
-        }
-        if(CPU -> DisplayModeLatch == true) {
-        	Console_AR = CPU -> C_AR;
-        }
-        break;
-    case CONSOLE_DISPLAY:
+		case T1410CPU::ADDR_ENTRY_A:
+			Console_AR = CPU -> A_AR;
+			break;
+		case T1410CPU::ADDR_ENTRY_B:
+			Console_AR = CPU -> B_AR;
+			break;
+		case T1410CPU::ADDR_ENTRY_C:
+			Console_AR = CPU -> C_AR;
+			break;
+		case T1410CPU::ADDR_ENTRY_D:
+			Console_AR = CPU -> D_AR;
+			break;
+		case T1410CPU::ADDR_ENTRY_E:
+			Console_AR = CPU -> E_AR;
+			break;
+		case T1410CPU::ADDR_ENTRY_F:
+			Console_AR = CPU -> F_AR;
+			break;
+		default:
+			DEBUG("1415IO: Invalid CPU Address Entry case: %d",CPU->AddressEntry);
+			Console_AR = NULL;
+		}
+		if(CPU -> DisplayModeLatch == true) {
+			Console_AR = CPU -> C_AR;
+		}
+		break;
+	case CONSOLE_DISPLAY:
     	InqReq -> Enabled = false;
     	InqRlse -> Enabled = false;
         InqCancel -> Enabled = false;
@@ -797,7 +797,7 @@ void TFI1415IO::DoDisplay(int phase)
 void TFI1415IO::DoAlter()
 {
 	if(!(AlterWMConditionLatch || AlterFullLineLatch)) {
-    	DEBUG("Cannot start ALTER without doing DISPLAY FIRST.",0)
+    	DEBUG("Cannot start ALTER without doing DISPLAY FIRST.")
         return;
     }
 
