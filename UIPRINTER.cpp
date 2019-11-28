@@ -129,18 +129,19 @@ void T1403Printer::CarriageStop() {
 
 //  Method to assign a name to the capture file
 
-bool T1403Printer::FileCaptureSet(char *filename) {
-	if(strlen(filename) >= MAXPATH) {
+bool T1403Printer::FileCaptureSet(String filename) {
+	if(filename.Length() >= MAXPATH) {
 		return(false);
 	}
-	strcpy(FileName,filename);
+	// strcpy(FileName,filename);
+	FileName = filename;
 	return(true);
 }
 
 //  And, finally, open the capture file...
 
 bool T1403Printer::FileCaptureOpen() {
-	if(strlen(FileName) == 0) {
+	if(FileName.Length() == 0) {
 		return(false);
 	}
 	fd = new TFileStream(FileName,fmCreate | fmOpenWrite);
@@ -235,7 +236,7 @@ void T1403Printer::DoOutput() {
 		DoOutputChar(BCD_WS);
 		if(++BufferPosition >= PRINTPOSITIONS) {
 			PrintStatus |= IOCHWLRECORD;
-			Channel -> ExtEndofTransfer;
+			Channel -> ExtEndofTransfer = true;
 			return;
 		}
 	}
@@ -320,7 +321,7 @@ bool T1403Printer::FileCapturePrint(char c) {
 		return(false);
 	}
 	if(fd -> Write(&c,1) != 1) {
-		DEBUG("T1403Printer::FileCapturePrint Error",0);
+		DEBUG("T1403Printer::FileCapturePrint Error");
 		return(false);
 	}
 	return(true);
@@ -475,7 +476,7 @@ void T1403Printer::SetCarriageDefault() {
 //  Returns 0 if tape is OK.  Returns - value if an error.  The value
 //  is in fact the line number.
 
-int T1403Printer::SetCarriageTape(char *filename) {
+int T1403Printer::SetCarriageTape(String filename) {
 
 	char *elements[PRINTMAXTOKENS];               //  Up to 80 fields per line.
 	int line, chan, i, n;
@@ -486,20 +487,20 @@ int T1403Printer::SetCarriageTape(char *filename) {
 
 	//  Passing us no file is OK: Means they want the default carriage tape.
 
-	if(filename == NULL || strlen(filename) == 0) {
+	if(filename == NULL || filename.Length() == 0) {
 		SetCarriageDefault();
 		return(0);
 	}
 
 	assert(ccfd == NULL);
-    line = 0;
+	line = 0;
 
-    //  Try and open the file.  If it fails, report an error on line 1.
+	//  Try and open the file.  If it fails, report an error on line 1.
 
-    try {
-        ccfd = new TFileStream(filename,fmOpenRead);
-    }
-    catch(EFOpenError &e) {
+	try {
+		ccfd = new TFileStream(filename,fmOpenRead);
+	}
+	catch(EFOpenError &e) {
         return(CarriageTapeError(-1));
     }
 
@@ -578,7 +579,7 @@ int T1403Printer::CarriageTapeError(int rc) {
 
 bool T1403Printer::GetCarriageLine() {
 
-    char *cp;
+	char *cp;
 
     if(ccfd == NULL) {
         return(false);
@@ -594,7 +595,7 @@ bool T1403Printer::GetCarriageLine() {
         }
     }
 
-    ccline[PRINTCCMAXLINE] = 0;
+    ccline[PRINTCCMAXLINE-1] = 0;
     return(false);
 }
 

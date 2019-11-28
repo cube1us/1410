@@ -50,7 +50,7 @@ protected:
 	int CarriageTape[PRINTMAXFORM];             //  Carriage tape data
 	char ccline[PRINTCCMAXLINE];
 
-	char FileName[MAXPATH];                     //  File name, if to file
+	String FileName;		                    //  File name, if to file
 	TFileStream *fd;                            //  File FDs for print, CC file
 
 public:
@@ -76,15 +76,15 @@ public:
 
     void ControlCarriage(BCD opmod);
 
-    void DoOutputChar(BCD c);                   //  Send one char of output
+	void DoOutputChar(BCD c);                   //  Send one char of output
     void EndofLine();                           //  Flush line to device.
 
-    int SetCarriageTape(char *tapefile);        //  Set up carriage control
-    void SetCarriageDefault();                  //  Set default CC tape
-    bool CarriageChannelTest(int cchannel);     //  True if this line has chan.
+	int SetCarriageTape(String tapefile);       //  Set up carriage control
+	void SetCarriageDefault();                  //  Set default CC tape
+	bool CarriageChannelTest(int cchannel);     //  True if this line has chan.
 
-    void FileCaptureClose();                    //  Terminate file capture
-    bool FileCaptureSet(char *filename);        //  Set capture file name
+	void FileCaptureClose();                    //  Terminate file capture
+	bool FileCaptureSet(String filename);       //  Set capture file name
     bool FileCaptureOpen();                     //  Open capture filename
     bool FileCapturePrint(char c);              //  Print a character to file
 
@@ -92,7 +92,7 @@ private:
 
     bool CarriageSkip(int lines, int channel);
     bool GetCarriageLine();
-    void ParseCarriageLine(char *line, char **elements);
+	void ParseCarriageLine(char *line, char **elements);
     int CarriageTapeError(int rc);              //  Cleans up after tape errors
 
 };

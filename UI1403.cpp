@@ -144,31 +144,31 @@ void __fastcall TFI1403::FileButtonClick(TObject *Sender)
     //  If the button says "Disable", we have to close out the existing file.
 
     if(EnableFile -> Enabled &&
-        strcmp(EnableFile -> Caption.c_str(),"Close") == 0) {
+		EnableFile -> Caption.Compare(L"Close") == 0) {
         PrinterIODevice -> FileCaptureClose();
-        EnableFile -> Caption = "Enable";
+		EnableFile -> Caption = L"Enable";
         EnableFile -> Enabled = false;
     }
 
     //  Now, send the file name off to the printer to have and to hold
 
     if(FileCaptureDialog -> Execute() &&
-       PrinterIODevice -> FileCaptureSet(FileCaptureDialog -> FileName.c_str())) {
-        EnableFile -> Caption = "Enable";
-        EnableFile -> Enabled = true;
-    }
+       PrinterIODevice -> FileCaptureSet(FileCaptureDialog -> FileName)) {
+		EnableFile -> Caption = L"Enable";
+		EnableFile -> Enabled = true;
+	}
 }
 //---------------------------------------------------------------------------
 
 
 void __fastcall TFI1403::EnableFileClick(TObject *Sender)
 {
-    if(strcmp(EnableFile -> Caption.c_str(),"Close") == 0) {
-        PrinterIODevice -> FileCaptureClose();
-        EnableFile -> Caption = "Enable";
-    }
-    else if(PrinterIODevice -> FileCaptureOpen()) {
-        EnableFile -> Caption = "Close";
+	if(EnableFile -> Caption.Compare(L"Close") == 0) {
+		PrinterIODevice -> FileCaptureClose();
+		EnableFile -> Caption = L"Enable";
+	}
+	else if(PrinterIODevice -> FileCaptureOpen()) {
+		EnableFile -> Caption = L"Close";
     }
 }
 //---------------------------------------------------------------------------
@@ -179,7 +179,7 @@ void __fastcall TFI1403::CarriageTapeClick(TObject *Sender)
 
     if(FileCaptureDialog -> Execute()) {
         rc =  PrinterIODevice ->
-            SetCarriageTape(FileCaptureDialog -> FileName.c_str());
+            SetCarriageTape(FileCaptureDialog -> FileName);
         if(rc < 0) {
             DEBUG("Carriage Tape File Error, line %d",-rc);
         }
