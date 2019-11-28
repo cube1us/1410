@@ -25,8 +25,11 @@
  *  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#define DEBUG(string,val) \
-	sprintf(F1410Debug->line,string,(val));	\
+//  NOTE:  I tried using __VA_OPT__(,) below, but Embarcadero's
+//  "legacy" Borland C++ style compiler did not handle it.
+
+#define DEBUG(string, ...) \
+	sprintf(F1410Debug->line,string, ##__VA_ARGS__);	\
     F1410Debug -> DebugOut(F1410Debug -> line);
 
 
