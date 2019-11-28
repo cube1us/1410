@@ -19,6 +19,7 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
+#include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("UERROR.cpp", FError);
 USEFORM("UI729TAPE.cpp", FI729);
@@ -44,7 +45,7 @@ USEFORM("UI14101.cpp", FI14101);
 #include "UI1415IO.h"
 #include "UI1410PWR.h"
 
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 
 	try
