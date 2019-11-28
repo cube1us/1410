@@ -68,8 +68,9 @@ __fastcall TFI1415CE::TFI1415CE(TComponent* Owner)
 void __fastcall TFI1415CE::AddressEntryChange(TObject *Sender)
 {
 	if(AddressEntry -> ItemIndex >= 0) {
-    	CPU -> AddressEntry = AddressEntry -> ItemIndex;
-    }
+		CPU -> AddressEntry =
+			(T1410CPU::TAddressEntry)AddressEntry -> ItemIndex;
+	}
     CPU -> OffNormal -> Display();
     DEBUG("Address Entry Switch set to %d",CPU -> AddressEntry)
 }
@@ -77,7 +78,7 @@ void __fastcall TFI1415CE::AddressEntryChange(TObject *Sender)
 void __fastcall TFI1415CE::StorageScanChange(TObject *Sender)
 {
 	if(StorageScan -> ItemIndex >= 0) {
-    	CPU -> StorageScan = StorageScan -> ItemIndex;
+		CPU -> StorageScan = (T1410CPU::TStorageScan)StorageScan -> ItemIndex;
     }
     CPU -> OffNormal -> Display();
     DEBUG("Storage Scan Switch set to %d",CPU -> StorageScan)
@@ -86,7 +87,8 @@ void __fastcall TFI1415CE::StorageScanChange(TObject *Sender)
 void __fastcall TFI1415CE::CycleControlChange(TObject *Sender)
 {
 	if(CycleControl -> ItemIndex >= 0) {
-    	CPU -> CycleControl = CycleControl -> ItemIndex;
+		CPU -> CycleControl =
+			(T1410CPU::TCycleControl)CycleControl -> ItemIndex;
     }
     CPU -> OffNormal -> Display();
     DEBUG("Cycle Control Switch set to %d",CPU -> CycleControl)
@@ -95,7 +97,8 @@ void __fastcall TFI1415CE::CycleControlChange(TObject *Sender)
 void __fastcall TFI1415CE::CheckControlChange(TObject *Sender)
 {
 	if(CheckControl -> ItemIndex >= 0) {
-    	CPU -> CheckControl = CheckControl -> ItemIndex;
+		CPU -> CheckControl =
+			(T1410CPU::TCheckControl)CheckControl -> ItemIndex;
     }
     CPU -> OffNormal -> Display();
     DEBUG("Check Control Switch set to %d",CPU -> CheckControl)
@@ -110,17 +113,19 @@ void __fastcall TFI1415CE::DiskWrInhibitClick(TObject *Sender)
 void __fastcall TFI1415CE::DensityCh1Change(TObject *Sender)
 {
 	if(DensityCh1 -> ItemIndex >= 0) {
-    	CPU -> Channel[CHANNEL1] -> TapeDensity = DensityCh1 -> ItemIndex;
-    }
-    DEBUG("Channel 1 Tape Density Switch set to %d",
-    	CPU -> Channel[CHANNEL1] -> TapeDensity)
+		CPU -> Channel[CHANNEL1] -> TapeDensity =
+			(T1410Channel::TTapeDensity)DensityCh1 -> ItemIndex;
+	}
+	DEBUG("Channel 1 Tape Density Switch set to %d",
+		CPU -> Channel[CHANNEL1] -> TapeDensity)
 }
 //---------------------------------------------------------------------------
 void __fastcall TFI1415CE::DensityCh2Change(TObject *Sender)
 {
 	if(DensityCh2 -> ItemIndex >= 0) {
-    	CPU -> Channel[CHANNEL2] -> TapeDensity = DensityCh2 -> ItemIndex;
-    }
+		CPU -> Channel[CHANNEL2] -> TapeDensity =
+			(T1410Channel::TTapeDensity)DensityCh2 -> ItemIndex;
+	}
     DEBUG("Channel 2 Tape Density Switch set to %d",
     	CPU -> Channel[CHANNEL2] -> TapeDensity)
 }
