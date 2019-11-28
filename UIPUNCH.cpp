@@ -155,7 +155,7 @@ void TPunch::DoOutput() {
         DoOutputChar(BCD_WS);
         if(++column > 80) {
             PunchStatus |= IOCHWLRECORD;
-            Channel -> ExtEndofTransfer;
+            Channel -> ExtEndofTransfer = true;
             return;
         }
     }
