@@ -1,4 +1,4 @@
-/* 
+/*
  *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
 #pragma package(smart_init)
 
 #pragma resource "*.dfm"
+
 TFI1402 *FI1402;
 
 //---------------------------------------------------------------------------
@@ -119,9 +120,9 @@ void __fastcall TFI1402::LoadReaderHopperClick(TObject *Sender)
     }
     ReaderIODevice -> CloseFile();
     if(FileOpenDialog -> Execute() &&
-        ReaderIODevice -> LoadFile(FileOpenDialog -> FileName.c_str())) {
+		ReaderIODevice -> LoadFile(FileOpenDialog -> FileName)) {
         ReaderStart -> Enabled = true;
-        EOFButton -> Enabled = true;
+		EOFButton -> Enabled = true;
     }
 }
 //---------------------------------------------------------------------------
@@ -129,25 +130,26 @@ void __fastcall TFI1402::LoadReaderHopperClick(TObject *Sender)
 void __fastcall TFI1402::HopperSelectClick(TObject *Sender,
       TUDBtnType Button)
 {
-    static char *hopper_name[] = { "R0","R1","R2/P8","P4","P0" };
+	static String hopper_name[] = { L"R0",L"R1",L"R2/P8",L"P4",L"P0" };
 
-    current_hopper = HopperSelect -> Position;
-    assert(current_hopper >= 0 && current_hopper <= 4);
-    HopperNumber -> Caption = hopper_name[current_hopper];
+	current_hopper = HopperSelect -> Position;
+	assert(current_hopper >= 0 && current_hopper <= 4);
+	HopperNumber -> Caption = hopper_name[current_hopper];
     Display();
 }
 //---------------------------------------------------------------------------
 
 void TFI1402::Display() {
 
-    char count_string[32];
+	wchar_t count_string[20];
 
-    if(Channel == NULL) {
-        return;
-    }
+	if(Channel == NULL) {
+		return;
+	}
 
-    assert(current_hopper >= 0 && current_hopper <= 4);
-    sprintf(count_string,"%d",Channel -> Hopper[current_hopper] -> getCount());
+	assert(current_hopper >= 0 && current_hopper <= 4);
+	swprintf(count_string,sizeof(count_string)/sizeof(count_string[0]),L"%d",
+		Channel -> Hopper[current_hopper] -> getCount());
     HopperCount -> SetTextBuf(count_string);
 }
 
@@ -157,7 +159,7 @@ void __fastcall TFI1402::HopperLoadButtonClick(TObject *Sender)
     assert(current_hopper >= 0 && current_hopper <= 4);
     if(FileOpenDialog -> Execute() &&
        Channel -> Hopper[current_hopper] ->
-        setFilename(FileOpenDialog -> FileName.c_str()) ) {
+        setFilename(FileOpenDialog -> FileName) ) {
         Display();
     }
 }
@@ -178,7 +180,7 @@ void __fastcall TFI1402::PunchStartClick(TObject *Sender)
 
 void __fastcall TFI1402::PunchStopClick(TObject *Sender)
 {
-    if(!LightPunchReady -> Enabled) {
+	if(!LightPunchReady -> Enabled) {
         return;
     }
     if(PunchIODevice -> DoStop()) {

@@ -59,7 +59,7 @@ THopper::THopper() {
 
     Count = 0;
     fd = NULL;
-    Filename[0] = '\0';
+	Filename = L"";
 }
 
 //  Method to stack a card
@@ -91,7 +91,7 @@ bool THopper::Stack(TCard *card) {
         delete fd;
         fd = NULL;
         resetCount();
-        DEBUG("THopper::Stack Write Error. Closing file.",0);
+        DEBUG("THopper::Stack Write Error. Closing file.");
         return(false);
     }
 
@@ -101,25 +101,25 @@ bool THopper::Stack(TCard *card) {
 
 //  Method to associate (and open) a file with a hopper...
 
-bool THopper::setFilename(char *s) {
+bool THopper::setFilename(String s) {
 
-    resetCount();
-    if(fd != NULL) {
-        delete fd;
-        fd = NULL;
-    }
-    if(s == NULL) {
-        return(false);
-    }
+	resetCount();
+	if(fd != NULL) {
+		delete fd;
+		fd = NULL;
+	}
+	if(s.Length() == 0) {
+		return(false);
+	}
 
-    try {
-        fd = new TFileStream(s,fmCreate);
-    }
+	try {
+		fd = new TFileStream(s,fmCreate);
+	}
     catch(EFOpenError &e) {
         return(false);
     }
 
-    strncpy(Filename,s,MAXPATH);
+	Filename = s;
     return(true);
 }
 

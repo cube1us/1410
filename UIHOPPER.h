@@ -53,7 +53,7 @@ class THopper: public TObject {
 private:
 
     int Count;                                          //  Count of cards
-    char Filename[MAXPATH];                             //  Corresponding file
+    String Filename;                                    //  Corresponding file
     TFileStream *fd;                                    //  File to write to
 
 public:
@@ -64,8 +64,8 @@ public:
     inline void incCount() { ++Count; }
     inline int getCount() { return Count; }
 
-    bool setFilename(char *s);
-    char *getFilename() { return Filename; }
+	bool setFilename(String s);
+	String getFilename() { return Filename; }
 
     bool Stack(TCard *card);
 };

@@ -25,19 +25,21 @@
 
 //  Class to implement the card reader interface and buffer
 
+
+
 class TCardReader : public T1410IODevice {
 
 protected:
 
-    TCard *ReadStation;                         //  Station to read the card
-    TCard *CheckStation;                        //  Where feed goes to
-    TCard *StackStation;                        //  Card after read
-    TCard *ReadBuffer;                          //  Where the read card goes
+	TCard *ReadStation;                         //  Station to read the card
+	TCard *CheckStation;                        //  Where feed goes to
+	TCard *StackStation;                        //  Card after read
+	TCard *ReadBuffer;                          //  Where the read card goes
 
-    char filename[MAXPATH];                     //  Input hopper, if you will
-    TFileStream *fd;                            //  Input hopper file stream
+	String filename;			                //  Input hopper, if you will
+	TFileStream *fd;                            //  Input hopper file stream
 
-    int column;                                 //  Current column.  1-80, 81
+	int column;                                 //  Current column.  1-80, 81
 
     bool ready;                                 //  True if reader ready
     bool eof;                                   //  True if EOF switch on
@@ -65,14 +67,14 @@ public:
     inline void SetEOF() { eof = true; }
     inline void ResetEOF() { eof = false; }
     inline bool IsBusy() { return BusyEntry -> TestBusy(); }
-    inline char *GetFileName() { return filename; }
+    inline String GetFileName() { return filename; }
     bool SetUnit(int u);                        //  Check unit validity, set
     inline int GetUnit() { return unit; }
 
-    bool LoadFile(char *s);                     //  Call to open input file
+	bool LoadFile(String s);		            //  Call to open input file
     void CloseFile();                           //  Force a file close if open
     bool DoStart();                             //  Process Start Button
-    void DoStop();                              //  Process Stop Button
+	void DoStop();                              //  Process Stop Button
 
 private:
 

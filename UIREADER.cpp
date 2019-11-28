@@ -1,4 +1,4 @@
-/* 
+/*
  *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ TCardReader::TCardReader(int devicenum, T1410Channel *Channel) :
 
     BusyEntry = new TBusyDevice();
 
-    filename[0] = '\0';
+	filename = L"";
     fd = NULL;
 
     ReadStation = NULL;
@@ -160,7 +160,8 @@ void TCardReader::DoUnitControl(BCD opmod) {
         hopper = HOPPER_R2;
         break;
 
-    default:
+	default:
+        DEBUG("test without parameters");
         DEBUG("TCardReader::DoUnitControl invalid unit: %d",hopper);
         Channel -> UnitControlOverlapBusy = NULL;
         readerstatus |= IOCHNOTREADY;
@@ -344,7 +345,7 @@ TCard *TCardReader::FeedCard() {
     }
 
     if(*cp != '\n') {
-        DEBUG("TCardReader::FeedCard: No newline found within 82 characters",0);
+        DEBUG("TCardReader::FeedCard: No newline found within 82 characters");
     }
 
     //  If the character before the newline was a carriage return, throw it
@@ -423,25 +424,26 @@ int TCardReader::DoInputColumn() {
 
 //  Method to load the card file
 
-bool TCardReader::LoadFile(char *s) {
+bool TCardReader::LoadFile(String s) {
 
-    if(fd != NULL) {
-        delete fd;
-        fd = NULL;
-    }
+	if(fd != NULL) {
+		delete fd;
+		fd = NULL;
+	}
 
-    if(s == NULL) {
-        return(false);
+	if(s.Length() == 0) {
+		return(false);
     }
 
     try {
-        fd = new TFileStream(s,fmOpenRead);
+        fd = new TFileStream(s.c_str(),fmOpenRead);
     }
     catch(EFOpenError &e) {
         return(false);
     }
 
-    strncpy(filename,s,MAXPATH);
+	// strncpy(filename,s,MAXPATH);
+	filename = s;
     return(true);
 }
 
