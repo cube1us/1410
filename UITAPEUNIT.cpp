@@ -58,10 +58,10 @@ void TTapeUnit::Init(int u) {
     loaded = fileprotect = tapeindicate = ready = selected = bot = false;
     write_irg = irg_read = modified = false;
     highdensity = true;
-    filename[0] = '\0';
+	filename = L"";
     record_number = 0;
     BusyEntry -> SetBusy(0);                        //  Set not busy.
-    return;
+	return;
 }
 
 //  Method to reset file, if open, and reset flags.  Typically called
@@ -119,8 +119,8 @@ bool TTapeUnit::LoadRewind() {
         }
 
     }
-    else if(strlen(filename) == 0) {
-        return(false);
+	else if(filename.Length() == 0) {
+		return(false);
     }
 
     //  Open the file.  First try RW.  If that fails, try RO and set fileprot.
@@ -139,7 +139,7 @@ bool TTapeUnit::LoadRewind() {
 
         catch(EFOpenError &e) {
             DEBUG("LoadRewind: open failed on tape unit %d",unit);
-            DEBUG(e.Message.c_str(),0);
+            DEBUG("%s",AnsiString(e.Message).c_str());
             ResetFile();
             return(false);
         }
@@ -166,18 +166,18 @@ bool TTapeUnit::Unload() {
 
 //  Mount a tape on the drive (associate a file)
 
-bool TTapeUnit::Mount(char *fname) {
+bool TTapeUnit::Mount(String fname) {
 
-    if(ready || loaded) {                           //  If ready or already
-        return(false);                              //  loaded, ignore it.
-    }
+	if(ready || loaded) {                           //  If ready or already
+		return(false);                              //  loaded, ignore it.
+	}
 
-    if(strlen(fname) == 0 || strlen(fname)+1 > sizeof(filename)) {
-        return(false);
-    }
-    assert(fd == NULL);
-    strcpy(filename,fname);
-    irg_read = write_irg = fileprotect = tapeindicate = bot = modified = false;
+	if(fname.Length() == 0) {
+		return(false);
+	}
+	assert(fd == NULL);
+	filename = fname;
+	irg_read = write_irg = fileprotect = tapeindicate = bot = modified = false;
 
     return(true);
 }
@@ -210,7 +210,7 @@ bool TTapeUnit::Select(bool b) {
 #ifdef TAPEDEBUG
     if(fd != NULL && !BusyEntry -> TestBusy()) {
         DEBUG("TTapeUnit unit %d selected",unit);
-        DEBUG("TTapeUnit Current file offset is %d",fd -> Position);
+		DEBUG("TTapeUnit Current file offset is %lld",fd -> Position);
     }
 #endif
     return(true);
@@ -317,7 +317,7 @@ bool TTapeUnit::Backspace() {
     assert(fd != NULL);
 
 #ifdef TAPEDEBUG
-    DEBUG("Backspace start: %d",fd -> Position);
+	DEBUG("Backspace start: %lld",fd -> Position);
 #endif
 
     if(bot) {                                           //  If at BOT, a NOP
@@ -371,7 +371,7 @@ bool TTapeUnit::Backspace() {
             bot = write_irg = true;
             record_number = 0;
 #ifdef TAPEDEBUG
-            DEBUG("Backspace end at BOT",0);
+            DEBUG("Backspace end at BOT");
 #endif
             return(true);
         }
@@ -390,7 +390,7 @@ bool TTapeUnit::Backspace() {
             irg_read = write_irg = true;
             --record_number;
 #ifdef TAPEDEBUG
-            DEBUG("Backspace end: %d",fd -> Position);
+			DEBUG("Backspace end: %lld",fd -> Position);
 #endif
             return(true);
         }
@@ -402,7 +402,7 @@ bool TTapeUnit::Backspace() {
 //  word separators into two word separators, etc. should have already been
 //  handled in the TAU
 
-bool TTapeUnit::Write(char c) {
+bool TTapeUnit::Write(int c) {
 
     if(!loaded || !ready || !selected || fd == NULL) {
         DEBUG("TapeUnit::Write: Unit %d not ready or selected",unit);
@@ -419,9 +419,9 @@ bool TTapeUnit::Write(char c) {
 
     if(irg_read) {
         try {
-            DEBUG("Write seeking back over EOR from: %d",fd -> Position);
+			DEBUG("Write seeking back over EOR from: %lld",fd -> Position);
             fd -> Seek(-1,soFromCurrent);
-            DEBUG("Write seeking back over EOR to: %d",fd -> Position);
+			DEBUG("Write seeking back over EOR to: %lld",fd -> Position);
             irg_read = false;
             write_irg = modified = true;           //  Set modified to write IRG
         }
@@ -464,7 +464,7 @@ void TTapeUnit::WriteIRG() {
 #ifdef TAPEDEBUG
     DEBUG("TTapeUnit::WriteIRG unit %d",unit);
     if(fd != NULL) {
-        DEBUG("TTapeUnit Current file position is %d",fd -> Position);
+		DEBUG("TTapeUnit Current file position is %lld",fd -> Position);
     }
 #endif
 
@@ -484,15 +484,15 @@ bool TTapeUnit::WriteTM() {
     DEBUG("Write TM %d",unit);
 #endif
 
-    if(!Write(TAPE_TM | TAPE_IRG)) {
-        return(false);
+	if(!Write((unsigned int)(TAPE_TM | TAPE_IRG))) {
+		return(false);
     }
     irg_read = modified = bot = false;
     status = Write(TAPE_TM);
     write_irg = modified = true;
 
 #ifdef TAPEDEBUG
-    DEBUG("Write TM end: %d",fd -> Position);
+	DEBUG("Write TM end: %lld",fd -> Position);
 #endif
 
     BusyEntry -> SetBusy(2);                       //  Go busy
@@ -541,7 +541,7 @@ int TTapeUnit::Read() {
 
     if(tape_buffer & TAPE_IRG) {
 #ifdef TAPEDEBUG
-        DEBUG("TTapeUnit::Read: Found IRG character at %d", fd -> Position);
+        DEBUG("TTapeUnit::Read: Found IRG character at %lld", fd -> Position);
 #endif
         irg_read = true;
         bot = false;
@@ -569,7 +569,7 @@ int TTapeUnit::ReadNextChar() {
     write_irg = true;                           //  Next write must write IRG
 
     if(fd -> Read(&c,1) != 1) {
-        DEBUG("TapeUnit::ReadNextChar: Error or EOF in Read, unit %d",unit);
+		DEBUG("TapeUnit::ReadNextChar: Error or EOF in Read, unit %d",unit);
         return(TAPE_TM | TAPE_IRG);
     }
     return(c);

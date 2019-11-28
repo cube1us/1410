@@ -1,4 +1,4 @@
-/* 
+/*
  *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -135,27 +135,28 @@ void __fastcall TFI729::ChannelSelectClick(TObject *Sender)
 
 void TFI729::Display()
 {
-    char record_number_string[32];
+	wchar_t record_number_string[32];
 
-    if(TapeUnit == NULL) {
-        if(TAU[current_channel] == NULL) {
-            return;
-        }
-        TapeUnit = TAU[current_channel] -> GetUnit(current_unit);
-        if(TapeUnit == NULL) {
-            return;
-        }
-    }
+	if(TapeUnit == NULL) {
+		if(TAU[current_channel] == NULL) {
+			return;
+		}
+		TapeUnit = TAU[current_channel] -> GetUnit(current_unit);
+		if(TapeUnit == NULL) {
+			return;
+		}
+	}
 
-    Ready -> Enabled = TapeUnit -> IsReady();
-    Select -> Enabled = TapeUnit -> Selected();
-    FileProtect -> Enabled = TapeUnit -> IsFileProtected();
-    TapeIndicate -> Enabled = TapeUnit -> TapeIndicate();
-    HighDensity -> Enabled = TapeUnit -> HighDensity();
-    Filename -> SetTextBuf(TapeUnit -> GetFileName());
+	Ready -> Enabled = TapeUnit -> IsReady();
+	Select -> Enabled = TapeUnit -> Selected();
+	FileProtect -> Enabled = TapeUnit -> IsFileProtected();
+	TapeIndicate -> Enabled = TapeUnit -> TapeIndicate();
+	HighDensity -> Enabled = TapeUnit -> HighDensity();
+	Filename -> SetTextBuf(TapeUnit -> GetFileName().w_str());
 
-    sprintf(record_number_string,"%d",TapeUnit -> GetRecordNumber());
-    RecordNum -> SetTextBuf(record_number_string);
+	swprintf(record_number_string,
+		sizeof(record_number_string)/sizeof(record_number_string[0]),
+        L"%d",TapeUnit -> GetRecordNumber() );
 
     if(TapeUnit -> IsReady()) {
         Mount -> Enabled = false;
@@ -171,7 +172,7 @@ void TFI729::Display()
         Unload -> Enabled = true;
         Reset -> Enabled = false;
     }
-    else if(strlen(TapeUnit -> GetFileName()) > 0) {
+    else if((TapeUnit -> GetFileName()).Length() > 0) {
         Mount -> Enabled = true;
         LoadRewind -> Enabled = true;
         Start -> Enabled = false;

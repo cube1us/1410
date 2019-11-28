@@ -37,7 +37,7 @@ protected:
 
     int unit;                                       //  Unit number.
 
-    char filename[MAXPATH];                         //  Path to tape file
+    String filename;		                        //  Path to tape file
     TFileStream *fd;                                //  File Descripter for I/O
     char tape_buffer;                               //  Char read from file
 
@@ -59,7 +59,7 @@ protected:
 
 private:
 
-    int ReadNextChar();                             //  Factored I/O call
+	int ReadNextChar();                             //  Factored I/O call
     void ResetFile();                               //  Close file, reset flags
 
 public:
@@ -72,7 +72,7 @@ public:
     inline bool TapeIndicate() { return tapeindicate; }
     inline void ResetIndicate() { tapeindicate = false; }
     inline bool HighDensity() { return highdensity; }
-    inline char *GetFileName() { return filename; }
+    inline String GetFileName() { return filename; }
     inline bool IsLoaded() { return loaded; }
     inline bool IsBusy() { return BusyEntry -> TestBusy(); }
     TBusyDevice *GetBusyDevice() { return BusyEntry; }
@@ -86,7 +86,7 @@ public:
     bool Unload();
     bool Start();
     bool ChangeDensity();
-    bool Mount(char *filename);
+    bool Mount(String filename);
 
     //  Interface functions for the Tape Adapter Unit (TAU) to use
 
@@ -103,7 +103,7 @@ public:
     int Space();                                    //  Space fwd 1 record
 
     int Read();                                     //  Returns char or -value
-    bool Write(char c);                             //  Write file character
+    bool Write(int c);                             //  Write file character
 };
 
 #endif

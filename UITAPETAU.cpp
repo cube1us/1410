@@ -449,7 +449,7 @@ int TTapeTAU::StatusSample() {
             tapestatus |= IOCHNOTREADY;
         }
         else {
-            DEBUG("TAU Initiating WriteIRG",0);
+            DEBUG("TAU Initiating WriteIRG");
             TapeUnit -> WriteIRG();
         }
     }
