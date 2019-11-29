@@ -156,7 +156,8 @@ void TFI729::Display()
 
 	swprintf(record_number_string,
 		sizeof(record_number_string)/sizeof(record_number_string[0]),
-        L"%d",TapeUnit -> GetRecordNumber() );
+		L"%d",TapeUnit -> GetRecordNumber() );
+    RecordNum -> SetTextBuf(record_number_string);
 
     if(TapeUnit -> IsReady()) {
         Mount -> Enabled = false;
