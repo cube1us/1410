@@ -136,9 +136,9 @@ void T1410CPU::InstructionMove()
     static int op_mod_bin;
     BCD b_temp;
 
-    enum TAssemblyChannel::AsmChannelNumericSelect AsmChannelNumericSelect;
-    enum TAssemblyChannel::AsmChannelZonesSelect AsmChannelZonesSelect;
-    enum TAssemblyChannel::AsmChannelWMSelect AsmChannelWMSelect;
+	enum TAssemblyChannel::TAsmChannelNumericSelect AsmChannelNumericSelect;
+	enum TAssemblyChannel::TAsmChannelZonesSelect AsmChannelZonesSelect;
+    enum TAssemblyChannel::TAsmChannelWMSelect AsmChannelWMSelect;
 
     if(LastInstructionReadout) {
         op_mod_bin = Op_Mod_Reg -> Get().ToInt();
@@ -230,9 +230,9 @@ void T1410CPU::InstructionMoveSuppressZeros()
         char subscan;
     } next;
 
-    enum TAssemblyChannel::AsmChannelNumericSelect AsmChannelNumericSelect;
-    enum TAssemblyChannel::AsmChannelWMSelect AsmChannelWMSelect;
-    enum TAssemblyChannel::AsmChannelZonesSelect AsmChannelZonesSelect;
+	enum TAssemblyChannel::TAsmChannelNumericSelect AsmChannelNumericSelect;
+	enum TAssemblyChannel::TAsmChannelWMSelect AsmChannelWMSelect;
+    enum TAssemblyChannel::TAsmChannelZonesSelect AsmChannelZonesSelect;
 
     int sz_char_flags;
 
@@ -385,8 +385,8 @@ void T1410CPU::InstructionEdit()
     int first_scan_store_type = 0;
     BCD b_temp;
 
-    enum TAssemblyChannel::AsmChannelZonesSelect AsmChannelZonesSelect;
-    enum TAssemblyChannel::AsmChannelWMSelect AsmChannelWMSelect;
+	enum TAssemblyChannel::TAsmChannelZonesSelect AsmChannelZonesSelect;
+    enum TAssemblyChannel::TAsmChannelWMSelect AsmChannelWMSelect;
 
     if(LastInstructionReadout) {
         next.scan = SCAN_1;
