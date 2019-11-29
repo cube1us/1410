@@ -53,7 +53,7 @@ void Init1410()
     char debug_msg[80];
     bool quit_comparator_test = false;
  
-	DEBUG("Creating CPU Object",0);
+	DEBUG("Creating CPU Object");
 
 	new T1410CPU;
 
@@ -79,11 +79,11 @@ void Init1410()
     //	Test Address register code
 
     DEBUG("STAR is initially %s",CPU -> STAR -> IsValid() ? "Valid" : "Invalid");
-    DEBUG("Setting STAR from an int",0);
+	DEBUG("Setting STAR from an int");
     CPU -> STAR -> Set(12345);
     DEBUG("STAR is now %s",CPU -> STAR -> IsValid() ? "Valid" : "Invalid");
-    DEBUG("STAR (int) value is now %d",CPU -> STAR -> Gate());
-    DEBUG("Resetting STAR",0);
+	DEBUG("STAR (int) value is now %ld",CPU -> STAR -> Gate());
+	DEBUG("Resetting STAR");
     CPU -> STAR -> Reset();
     DEBUG("STAR is now %s",CPU -> STAR -> IsValid() ? "Valid" : "Invalid");
     CPU -> STAR -> Set(1,1);
@@ -92,7 +92,7 @@ void Init1410()
     CPU -> STAR -> Set(4,4);
     CPU -> STAR -> Set(5,5);
     DEBUG("STAR is now %s",CPU -> STAR -> IsValid() ? "Valid" : "Invalid");
-    DEBUG("STAR (int) value is now %d",CPU -> STAR->Gate());
+	DEBUG("STAR (int) value is now %ld",CPU -> STAR->Gate());
 
     //	Test register assignment
 
@@ -102,7 +102,7 @@ void Init1410()
 
 	//	Test assembly channel
 
-    DEBUG("Begin Assembly Channel Test",0)
+	DEBUG("Begin Assembly Channel Test")
 
     CPU -> A_Reg -> Set(0x15);
     CPU -> B_Reg -> Set(0xaa);
@@ -112,55 +112,55 @@ void Init1410()
     DEBUG("B Register is now %x",CPU -> B_Reg -> Get().ToInt())
 
     CPU -> AssemblyChannel -> Reset();
-    DEBUG("Assembly Channel from A Channel yields %x",
+	DEBUG("Assembly Channel from A Channel yields %x",
 		CPU -> AssemblyChannel -> Select(
     		CPU -> AssemblyChannel -> AsmChannelWMA,
             CPU -> AssemblyChannel -> AsmChannelZonesA, false,
             CPU -> AssemblyChannel -> AsmChannelSignNone,
-            CPU -> AssemblyChannel -> AsmChannelNumA) )
+			CPU -> AssemblyChannel -> AsmChannelNumA).ToInt() )
 
-    CPU -> AssemblyChannel -> Reset();
-    DEBUG("Assembly Channel from B Channel yields %x",
+	CPU -> AssemblyChannel -> Reset();
+	DEBUG("Assembly Channel from B Channel yields %x",
 		CPU -> AssemblyChannel -> Select(
-    		CPU -> AssemblyChannel -> AsmChannelWMB,
-            CPU -> AssemblyChannel -> AsmChannelZonesB, false,
-            CPU -> AssemblyChannel -> AsmChannelSignNone,
-            CPU -> AssemblyChannel -> AsmChannelNumB) )
+			CPU -> AssemblyChannel -> AsmChannelWMB,
+			CPU -> AssemblyChannel -> AsmChannelZonesB, false,
+			CPU -> AssemblyChannel -> AsmChannelSignNone,
+			CPU -> AssemblyChannel -> AsmChannelNumB).ToInt() )
 
-    DEBUG("Assembly Channel WM from B, rest from A yields %x",
+	DEBUG("Assembly Channel WM from B, rest from A yields %x",
 		CPU -> AssemblyChannel -> Select(
     		CPU -> AssemblyChannel -> AsmChannelWMB,
             CPU -> AssemblyChannel -> AsmChannelZonesA, false,
             CPU -> AssemblyChannel -> AsmChannelSignNone,
-            CPU -> AssemblyChannel -> AsmChannelNumA) )
+			CPU -> AssemblyChannel -> AsmChannelNumA).ToInt() )
 
-    DEBUG("Assembly Channel Normalized Sign from A yields %x",
+	DEBUG("Assembly Channel Normalized Sign from A yields %x",
 		CPU -> AssemblyChannel -> Select(
     		CPU -> AssemblyChannel -> AsmChannelWMA,
             CPU -> AssemblyChannel -> AsmChannelZonesNone, false,
             CPU -> AssemblyChannel -> AsmChannelSignA,
-            CPU -> AssemblyChannel -> AsmChannelNumA) )
+			CPU -> AssemblyChannel -> AsmChannelNumA).ToInt() )
 
-    DEBUG("Assembly Channel Normalized Sign from B yelds %x",
+	DEBUG("Assembly Channel Normalized Sign from B yelds %x",
 		CPU -> AssemblyChannel -> Select(
     		CPU -> AssemblyChannel -> AsmChannelWMB,
             CPU -> AssemblyChannel -> AsmChannelZonesNone, false,
             CPU -> AssemblyChannel -> AsmChannelSignB,
-            CPU -> AssemblyChannel -> AsmChannelNumB) )
+			CPU -> AssemblyChannel -> AsmChannelNumB).ToInt() )
 
-    DEBUG("Assembly Channel Inverted Sign from A yields %x",
+	DEBUG("Assembly Channel Inverted Sign from A yields %x",
 		CPU -> AssemblyChannel -> Select(
     		CPU -> AssemblyChannel -> AsmChannelWMA,
             CPU -> AssemblyChannel -> AsmChannelZonesNone, true,
             CPU -> AssemblyChannel -> AsmChannelSignA,
-            CPU -> AssemblyChannel -> AsmChannelNumA) )
+			CPU -> AssemblyChannel -> AsmChannelNumA).ToInt() )
 
-    DEBUG("Assembly Channel Inverted Sign from B yelds %x",
+	DEBUG("Assembly Channel Inverted Sign from B yelds %x",
 		CPU -> AssemblyChannel -> Select(
     		CPU -> AssemblyChannel -> AsmChannelWMB,
             CPU -> AssemblyChannel -> AsmChannelZonesNone, true,
             CPU -> AssemblyChannel -> AsmChannelSignB,
-            CPU -> AssemblyChannel -> AsmChannelNumB) )
+            CPU -> AssemblyChannel -> AsmChannelNumB).ToInt() )
 
 	//	Test the Adder
 
@@ -228,7 +228,7 @@ void Init1410()
 
     CPU -> SubScanRing -> Set(SUB_SCAN_U);
 
-    DEBUG("Begin Comparator test...",0);
+	DEBUG("Begin Comparator test...");
 
     for(b_temp = 0; !quit_comparator_test && b_temp < 64; ++b_temp) {
         for(a_temp = 0; !quit_comparator_test && a_temp < 64; ++a_temp) {
@@ -265,7 +265,7 @@ void Init1410()
         }
     }
 
-    DEBUG("End Comparator Test...",0);
+    DEBUG("End Comparator Test...");
 
 	//	Redisplay (in case a test changed indicators)
 
@@ -273,7 +273,7 @@ void Init1410()
 
     //	Set breakpoint to examine values here
 
-	DEBUG("Waiting for User Interface",0)
+	DEBUG("Waiting for User Interface")
 
 
 }
