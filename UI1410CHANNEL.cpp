@@ -506,7 +506,7 @@ void T1410Channel::DoOverlap() {
     long SaveSTAR;
     bool SaveStorageWrapLatch;
     char SaveCycle;
-    enum TAChannel::AChannelSelect AChannelSave;
+    enum TAChannel::TAChannelSelect AChannelSave;
 
     //  Save the state of things.  Probably this is overkill, but it
     //  makes things a lot easier, because my storage cycles are not
@@ -598,7 +598,7 @@ T1410IODevice::T1410IODevice(int devicenumber, T1410Channel *Ch) {
 
 void T1410IODevice::DoUnitControl(BCD opmod) {
     Channel -> SetStatus(Channel -> GetStatus() | IOCHNOTREADY);
-    DEBUG("Unit control not implemented for device",0);
+    DEBUG("Unit control not implemented for device");
     return;
 }
 

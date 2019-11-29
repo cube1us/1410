@@ -186,7 +186,7 @@ public:
     inline void Reset() { state = false; }
     inline void Set() { state = true; }
     inline void Set(bool b) { state = b; }
-    void SetStop(char *msg);
+    void SetStop(char const *msg);
     inline bool State() { return state; }
 };
 

@@ -220,7 +220,7 @@ void TDisplayLatch::OnProgramReset()
 //	Routine to set a latch and set the CPU Stop Latch at the same time
 //	Typically used for error latches.
 
-void TDisplayLatch::SetStop(char *msg) {
+void TDisplayLatch::SetStop(char const *msg) {
     	state = true;
         CPU -> StopLatch = true;
         if(msg != 0) {
