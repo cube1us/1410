@@ -41,7 +41,7 @@ private:	// User declarations
 public:		// User declarations
 	__fastcall TF1410Debug(TComponent* Owner);
     char line[256];
-    void DebugOut(char *s);
+    void DebugOut(char const *s);
 };
 //---------------------------------------------------------------------------
 extern TF1410Debug *F1410Debug;

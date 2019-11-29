@@ -69,7 +69,7 @@ TInstructionExecuteRoutine InstructionExecuteRoutine[64];
 //	Core pre-load (gives this virtual 1410 a 7010-like load capability
 //	Just hit Computer Reset then Start to boot from tape
 
-char *core_load_chars = "AL%B000012$N..";
+char const *core_load_chars = "AL%B000012$N..";
 char core_load_wm[] = { 0,1,0,0,0,0,0,0,0,0,0,1,1,1 };
 
 //	Tables which pre-multiply integers by decimal numbers, for efficiency.
@@ -1185,8 +1185,8 @@ T1410CPU::T1410CPU()
 
     Op_Reg = new TRegister();
 
-    DEBUG("B_Reg is at %x",B_Reg)
-    DEBUG("OP Reg is at %x",Op_Reg)
+	DEBUG("B_Reg is at %p",B_Reg)
+	DEBUG("OP Reg is at %p",Op_Reg)
 
     tmpl = new TLabel*[8];
     tmpl[0] = F1415L -> Light_CE_OP_1;
@@ -1558,8 +1558,8 @@ void T1410CPU::LoadCore(char *filename)
     //	First open the file.
 
     if((fd = fopen(filename,"rb")) == NULL) {
-    	Application -> MessageBox("Unable to open file to load core.",
-        	"Load Core Error",MB_OK);
+		Application -> MessageBox(L"Unable to open file to load core.",
+        	L"Load Core Error",MB_OK);
         return;
     }
 
@@ -1567,8 +1567,8 @@ void T1410CPU::LoadCore(char *filename)
 
     file_coresize[sizeof(file_coresize)-1] = '\0';
     if(fread(&file_coresize,1,5,fd) != 5) {
-    	Application -> MessageBox("Error reading dump core size from file.",
-        	"Error Reading Dump",MB_OK);
+		Application -> MessageBox(L"Error reading dump core size from file.",
+			L"Error Reading Dump",MB_OK);
         fclose(fd);
         return;
     }
@@ -1577,15 +1577,15 @@ void T1410CPU::LoadCore(char *filename)
 
     coresize = atol(file_coresize);
     if(coresize < 0) {
-    	Application -> MessageBox("Dump contained negative value for core size.",
-        	"Negative Core Size in File",MB_OK);
+		Application -> MessageBox(L"Dump contained negative value for core size.",
+			L"Negative Core Size in File",MB_OK);
         fclose(fd);
         return;
     }
 
     if(coresize > STORAGE) {
-    	Application -> MessageBox("Dump contained core size greater than simlator's.",
-        	"Large Core Size in File",MB_OK);
+		Application -> MessageBox(L"Dump contained core size greater than simlator's.",
+			L"Large Core Size in File",MB_OK);
         fclose(fd);
         return;
     }
@@ -1593,8 +1593,8 @@ void T1410CPU::LoadCore(char *filename)
     //	Read in the data from the dump file.
 
     if(fread(&file_core,sizeof(int),coresize,fd) != coresize) {
-    	Application -> MessageBox("Error loading core data from file",
-        	"Error Loading Core",MB_OK);
+		Application -> MessageBox(L"Error loading core data from file",
+			L"Error Loading Core",MB_OK);
         fclose(fd);
     }
 
@@ -1605,7 +1605,7 @@ void T1410CPU::LoadCore(char *filename)
     }
 
     fclose(fd);
-    Application -> MessageBox("Core Loaded!","Core Loaded",MB_OK);
+	Application -> MessageBox(L"Core Loaded!",L"Core Loaded",MB_OK);
 }
 
 void T1410CPU::DumpCore(char *filename)
@@ -1617,8 +1617,8 @@ void T1410CPU::DumpCore(char *filename)
     //	First, prepare a file.
 
     if((fd = fopen(filename,"wb")) == NULL) {
-    	Application -> MessageBox("Unable to open file to dump core.",
-        	"Dump Core Error",MB_OK);
+		Application -> MessageBox(L"Unable to open file to dump core.",
+			L"Dump Core Error",MB_OK);
     }
 
     //	Then, copy core to an integer array
@@ -1630,8 +1630,8 @@ void T1410CPU::DumpCore(char *filename)
     //	Write out the core size to the file
 
     if(fprintf(fd,"%05d",STORAGE) != 5) {
-    	Application -> MessageBox("Error writing out core size.",
-        	"Core Size Write Error",MB_OK);
+		Application -> MessageBox(L"Error writing out core size.",
+			L"Core Size Write Error",MB_OK);
         fclose(fd);
         return;
     }
@@ -1639,12 +1639,12 @@ void T1410CPU::DumpCore(char *filename)
     //	Then write out the integer array
 
     if(fwrite(&file_core,sizeof(int),STORAGE,fd) != STORAGE) {
-    	Application -> MessageBox("Error writing out core file.",
-        	"File Write Error",MB_OK);
+		Application -> MessageBox(L"Error writing out core file.",
+			L"File Write Error",MB_OK);
         fclose(fd);
     }
 
-    Application -> MessageBox("Core Dumped!","Core Dumped",MB_OK);
+    Application -> MessageBox(L"Core Dumped!",L"Core Dumped",MB_OK);
     fclose(fd);
 }
 

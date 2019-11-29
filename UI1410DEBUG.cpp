@@ -36,7 +36,7 @@ __fastcall TF1410Debug::TF1410Debug(TComponent* Owner)
 
 //	Routine to put out some debugging output onto the debugging panel
 
-void TF1410Debug::DebugOut(char *s)
+void TF1410Debug::DebugOut(char const *s)
 {
     if(Debug -> Lines -> Capacity > 512) {
         Debug -> Lines -> Delete(0);
