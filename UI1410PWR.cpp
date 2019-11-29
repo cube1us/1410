@@ -66,7 +66,7 @@ void __fastcall TFI1410PWR::ComputerResetClick(TObject *Sender)
 {
 	TCpuObject *o;
 
-    DEBUG("Computer Reset",0)
+	DEBUG("Computer Reset")
     for(o = CPU -> ResetList; o != 0; o = o -> NextReset) {
     	o -> OnComputerReset();
     }
@@ -114,7 +114,7 @@ void __fastcall TFI1410PWR::ComputerResetClick(TObject *Sender)
 void __fastcall TFI1410PWR::ModeChange(TObject *Sender)
 {
 	if(Mode -> ItemIndex >= 0) {
-    	CPU -> Mode = Mode -> ItemIndex;
+		CPU -> Mode = (T1410CPU::TMode) Mode -> ItemIndex;
     }
 
     //	Moving the mode switch is equivalent to hitting STOP
@@ -129,7 +129,7 @@ void __fastcall TFI1410PWR::ProgramResetClick(TObject *Sender)
 {
 	TCpuObject *o;
 
-    DEBUG("Program Reset",0)
+    DEBUG("Program Reset")
     for(o = CPU -> ResetList; o != 0; o = o -> NextReset) {
     	o -> OnProgramReset();
     }
