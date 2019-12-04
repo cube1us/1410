@@ -173,7 +173,7 @@ void TFI729::Display()
         Unload -> Enabled = true;
         Reset -> Enabled = false;
     }
-    else if((TapeUnit -> GetFileName()).Length() > 0) {
+	else if((TapeUnit -> GetFileName()).Length() > 0) {
         Mount -> Enabled = true;
         LoadRewind -> Enabled = true;
         Start -> Enabled = false;
@@ -202,8 +202,8 @@ void TFI729::SetTAU(TTapeTAU *T, int ch)
 void __fastcall TFI729::MountClick(TObject *Sender)
 {
     if(TapeUnit != NULL && FileMountDialog -> Execute()) {
-        Filename -> Caption = FileMountDialog -> FileName;
-        TapeUnit -> Mount(Filename -> Caption.c_str());
+		Filename -> Caption = FileMountDialog -> FileName;
+		TapeUnit -> Mount(Filename -> Caption /* .c_str() */ );
         Display();
     };
 }
