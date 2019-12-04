@@ -50,7 +50,10 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 
 	try
 	{
+		Application -> MessageBox(L"Calling Initialize.",L"",MB_OK);
 		Application->Initialize();
+		Application -> MessageBox(L"Back from Initialize.  Creating forms.",
+			L"",MB_OK);
 		Application->CreateForm(__classid(TFI14101), &FI14101);
 		Application->CreateForm(__classid(TF1410Debug), &F1410Debug);
 		Application->CreateForm(__classid(TFI1415IO), &FI1415IO);
@@ -67,12 +70,18 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TFI1415IO), &FI1415IO);
 		Application->CreateForm(__classid(TF1415L), &F1415L);
 		Application->CreateForm(__classid(TFI14101), &FI14101);
+		Application -> MessageBox(L"Forms Created.  Initializing",
+			L"",MB_OK);
 		Init1410();
+		Application -> MessageBox(L"Init1410 returned.  Running",
+			L"",MB_OK);
 
 		Application->Run();
 	}
 	catch (Exception &exception)
 	{
+		Application -> MessageBox(L"Main Program Caught Exception.",
+			L"",MB_OK);
 		Application->ShowException(&exception);
 	}
 	return 0;
