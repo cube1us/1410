@@ -696,8 +696,8 @@ public:
     bool StorageWrapCheck(int mod);    //  Call to check for storage wrap
                                         //  Mod should be 1 or -1.
 
-    void LoadCore(char *file);	//	Loads core from a file
-    void DumpCore(char *file);	//	Dumps core to a file
+	void LoadCore(String file);	//	Loads core from a file
+	void DumpCore(String file);	//	Dumps core to a file
 
 
 public:

@@ -1,4 +1,4 @@
-/* 
+/*
  *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -1548,54 +1548,72 @@ bool T1410CPU::StorageWrapCheck(int mod) {
 
 //	Method to load core from a file
 
-void T1410CPU::LoadCore(char *filename)
+void T1410CPU::LoadCore(String filename)
 {
-	FILE *fd;
-    long coresize,loc;
-    char file_coresize[6];
-    int file_core[STORAGE];
+	// FILE *fd;
+	TFileStream *fd;
+	long coresize,loc;
+	char file_coresize[6];
+	short int file_core[STORAGE];
 
-    //	First open the file.
+	//	First open the file.
 
-    if((fd = fopen(filename,"rb")) == NULL) {
-		Application -> MessageBox(L"Unable to open file to load core.",
-        	L"Load Core Error",MB_OK);
-        return;
+	// if((fd = fopen(filename,"rb")) == NULL) {
+	try {
+		fd = new TFileStream(filename,fmOpenRead);
+	} catch (EFOpenError &e) {
+		String tmpMsg = L"Unable to open file to load core. (";
+		tmpMsg += e.Message;
+		tmpMsg += L")";
+		Application -> MessageBox(/* L"Unable to open file to load core.", */
+			tmpMsg.c_str(),L"Load Core Error",MB_OK);
+		return;
     }
 
     //	Next, read in the (5 digit) core size
 
-    file_coresize[sizeof(file_coresize)-1] = '\0';
-    if(fread(&file_coresize,1,5,fd) != 5) {
+	file_coresize[sizeof(file_coresize)-1] = '\0';
+	if(fd -> Read(&file_coresize,5) /* fread(&file_coresize,1,5,fd) */ != 5) {
 		Application -> MessageBox(L"Error reading dump core size from file.",
 			L"Error Reading Dump",MB_OK);
-        fclose(fd);
-        return;
+		// fclose(fd);
+		delete fd;
+		fd = NULL;
+		return;
     }
 
     //	Convert from decimal to long, and validate.
 
     coresize = atol(file_coresize);
-    if(coresize < 0) {
+	if(coresize < 0) {
 		Application -> MessageBox(L"Dump contained negative value for core size.",
 			L"Negative Core Size in File",MB_OK);
-        fclose(fd);
+		// fclose(fd);
+		delete fd;
+		fd = NULL;
         return;
     }
 
     if(coresize > STORAGE) {
 		Application -> MessageBox(L"Dump contained core size greater than simlator's.",
 			L"Large Core Size in File",MB_OK);
-        fclose(fd);
-        return;
-    }
+		// fclose(fd);
+		delete fd;
+		fd = NULL;
+		return;
+	}
 
-    //	Read in the data from the dump file.
+	//	Read in the data from the dump file.
 
-    if(fread(&file_core,sizeof(int),coresize,fd) != coresize) {
+	if(fd -> Read(&file_core,coresize*sizeof(short int)) !=
+		/* fread(&file_core,sizeof(int),coresize,fd) */
+			coresize*sizeof(short int)) {
 		Application -> MessageBox(L"Error loading core data from file",
 			L"Error Loading Core",MB_OK);
-        fclose(fd);
+		// fclose(fd);
+		delete fd;
+		fd = NULL;
+        return;
     }
 
     //	Finally, copy the data to core.
@@ -1604,48 +1622,70 @@ void T1410CPU::LoadCore(char *filename)
     	core[loc].Set(file_core[loc]);
     }
 
-    fclose(fd);
+	// fclose(fd);
+	delete fd;
+    fd = NULL;
 	Application -> MessageBox(L"Core Loaded!",L"Core Loaded",MB_OK);
 }
 
-void T1410CPU::DumpCore(char *filename)
+void T1410CPU::DumpCore(String filename)
 {
-	FILE *fd;
+	// FILE *fd;
+    TFileStream *fd;
     long loc;
-    int file_core[STORAGE];
+	short int file_core[STORAGE];
+	char coresize[6];
 
     //	First, prepare a file.
 
-    if((fd = fopen(filename,"wb")) == NULL) {
-		Application -> MessageBox(L"Unable to open file to dump core.",
-			L"Dump Core Error",MB_OK);
-    }
+	// if((fd = fopen(filename,"wb")) == NULL) {
+	try {
+		fd = new TFileStream(filename,fmCreate);
+	} catch (EFOpenError &e) {
+		String tmpMsg = L"Unable to open file to dump core. (";
+		tmpMsg += e.Message;
+		tmpMsg += L")";
+		Application -> MessageBox(/* L"Unable to open file to dump core. */
+			tmpMsg.c_str(),L"Dump Core Error",MB_OK);
+		return;
+	}
 
-    //	Then, copy core to an integer array
+	//	Then, copy core to an integer array
 
-    for(loc=0; loc < STORAGE; ++loc){
-    	file_core[loc] = core[loc].ToInt();
+	for(loc=0; loc < STORAGE; ++loc){
+		file_core[loc] = core[loc].ToInt();
     }
 
     //	Write out the core size to the file
 
-    if(fprintf(fd,"%05d",STORAGE) != 5) {
+	std::sprintf(coresize,"%05d",STORAGE);
+	// if(fprintf(fd,"%05d",STORAGE) != 5) {
+	if(fd -> Write(&coresize,5) != 5) {
 		Application -> MessageBox(L"Error writing out core size.",
 			L"Core Size Write Error",MB_OK);
-        fclose(fd);
-        return;
-    }
+		// fclose(fd);
+		delete fd;
+		fd = NULL;
+		return;
+	}
 
-    //	Then write out the integer array
+	//	Then write out the integer array
 
-    if(fwrite(&file_core,sizeof(int),STORAGE,fd) != STORAGE) {
+	// if(fwrite(&file_core,sizeof(int),STORAGE,fd) != STORAGE) {
+	if(fd -> Write(&file_core,STORAGE*sizeof(short int) !=
+			STORAGE*sizeof(short int))) {
 		Application -> MessageBox(L"Error writing out core file.",
 			L"File Write Error",MB_OK);
-        fclose(fd);
-    }
+		// fclose(fd);
+		delete fd;
+		fd = NULL;
+		return;
+	}
 
-    Application -> MessageBox(L"Core Dumped!",L"Core Dumped",MB_OK);
-    fclose(fd);
+	Application -> MessageBox(L"Core Dumped!",L"Core Dumped",MB_OK);
+	// fclose(fd);
+	delete fd;
+    fd = NULL;
 }
 
 //	The 1410 Adder.  It works by translating the numeric part into
