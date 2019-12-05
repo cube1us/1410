@@ -51,7 +51,8 @@ T1403Printer::T1403Printer(int devicenum, T1410Channel *Channel) :
     ccline[0] = '\0';
     SetCarriageDefault();                       //  Default CC tape
 
-    FileName[0] = '\0';
+	// FileName[0] = '\0';
+    FileName = L"";
     fd = NULL;
 
     SkipLines = SkipChannel = 0;
