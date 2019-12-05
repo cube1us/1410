@@ -60,6 +60,7 @@ void __fastcall TFI1410PWR::EmergencyOffClick(TObject *Sender)
         CPU -> Channel[i] -> ExtEndofTransfer = true;
     }
 	FI14101 -> Close();
+    Application -> Terminate();
 }
 //---------------------------------------------------------------------------
 void __fastcall TFI1410PWR::ComputerResetClick(TObject *Sender)
