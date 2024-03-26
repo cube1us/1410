@@ -42,10 +42,10 @@ __fastcall TFI1402::TFI1402(TComponent* Owner)
     : TForm(Owner)
 {
     Width = 632;
-    Left = 260;
+    Left = 930;
     Top = 300;
     Height = 164;
-   	WindowState = wsMinimized;
+   	// WindowState = wsMinimized;
     current_hopper = 0;
     Channel = NULL;
 }

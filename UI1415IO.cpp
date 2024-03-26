@@ -331,7 +331,7 @@ bool TFI1415IO::DoWordMark()
 void TFI1415IO::SendBCDTo1415(BCD bcd)
 {
 	int last;
-    char c;
+	unsigned char c;
 
     //	Advance to next line if this is the very first line, in
     //	order to make room for first line of wordmarks
@@ -339,7 +339,7 @@ void TFI1415IO::SendBCDTo1415(BCD bcd)
 	last = I1415IO -> Lines -> Count - 1;
     if(last <= 0) {
     	NextLine();
-    	last = I1415IO -> Lines -> Count -1;
+		last = I1415IO -> Lines -> Count -1;
     }
 
     //	Advance wordmark line to current position if necessary
@@ -348,7 +348,7 @@ void TFI1415IO::SendBCDTo1415(BCD bcd)
        I1415IO -> Lines -> Strings[last].Length()) {
     	I1415IO -> Lines -> Strings[last-1] =
         	I1415IO -> Lines -> Strings[last-1] +
-            (bcd.TestWM() ? "v" : " ");
+			(bcd.TestWM() ? "v" : " ");
     }
 
     //	If in display mode (registers or memory), print space as 'b'.
@@ -358,10 +358,10 @@ void TFI1415IO::SendBCDTo1415(BCD bcd)
     //	situation)
 
 	c = (state == CONSOLE_DISPLAY && bcd.ToAscii() == ' ') ?
-    		'c' : bcd.ToAscii();
+			'c' : bcd.ToAscii();
 
-    I1415IO -> Lines -> Strings[last] =
-    	I1415IO -> Lines -> Strings[last] + c;
+	I1415IO -> Lines -> Strings[last] =
+		I1415IO -> Lines -> Strings[last] + static_cast<wchar_t>(c);
 
     //	Advance to next line if this line is full
     //	If we are doing a DISPLAY, set up the alter latches for later ALTER

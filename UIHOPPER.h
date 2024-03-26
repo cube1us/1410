@@ -41,7 +41,7 @@ private:
 public:
 
     TCard();                                    //  Constructor
-    char image[80];                             //  80 columns of data
+    unsigned char image[80];                    //  80 columns of data
     void SelectStacker(THopper *h);             //  Select Stacker
     bool Stack();                               //  Stack card to hopper
 };

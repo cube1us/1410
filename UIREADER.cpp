@@ -76,7 +76,7 @@ int TCardReader::Select() {
         return(readerstatus = IOCHNOTREADY);
     }
     if(IsBusy()) {
-        return(readerstatus = IOCHBUSY);
+		return(readerstatus = IOCHBUSY);
     }
     if(Channel -> ChWrite -> State()) {
         return(readerstatus = IOCHNOTREADY);
@@ -111,7 +111,7 @@ int TCardReader::Select() {
         FI1402 -> ResetEOF();
         FI1402 -> SetReaderReady(false);
         ready = false;
-        if((op = CPU -> Op_Reg -> Get().To6Bit()) == OP_IO_MOVE ||
+		if((op = CPU -> Op_Reg -> Get().To6Bit()) == OP_IO_MOVE ||
             op == OP_IO_LOAD) {
             return(readerstatus = IOCHCONDITION);
         }
@@ -146,7 +146,7 @@ void TCardReader::DoUnitControl(BCD opmod) {
 
     int hopper;
 
-    hopper = opmod.To6Bit();
+	hopper = opmod.To6Bit();
 
     switch(hopper) {
 
@@ -198,7 +198,7 @@ void TCardReader::DoInput() {
     //  If the read buffer is empty, no transfer.
     //  (really, this should never happen!)
 
-    if(ReadBuffer == NULL) {
+	if(ReadBuffer == NULL) {
         readerstatus |= IOCHNOTRANSFER;
         Channel -> ExtEndofTransfer = true;
         return;
@@ -216,7 +216,7 @@ void TCardReader::DoInput() {
 
     if(Channel -> LoadMode && (card_input_char & 0x3f) == (BCD_WS & 0x3f)) {
         wm = true;
-        card_input_char = DoInputColumn();          //  Read char after ws
+		card_input_char = DoInputColumn();          //  Read char after ws
         if(card_input_char < 0) {                   //  Ooops -- off the end
             return;
         }
@@ -228,7 +228,7 @@ void TCardReader::DoInput() {
     //  Convert the character to BCD.  The DoInputColumn routine already
     //  sets IOCHDATACHECK for invalid characters...
 
-    assert(card_input_char >= 0 && card_input_char <= 63);
+	assert(card_input_char >= 0 && card_input_char <= 63);
     c = BCD(card_input_char);
     c.SetOddParity();
     if(wm) {
@@ -251,7 +251,7 @@ bool TCardReader::SetUnit(int u) {
 
     case 0:
         u = HOPPER_R0;
-        break;
+		break;
     case 1:
         u = HOPPER_R1;
         break;
@@ -324,7 +324,7 @@ TCard *TCardReader::FeedCard() {
 
     //  If the file isn't open, or we cannot allocate a card, return NULL
 
-    if(fd == NULL || (card = new TCard()) == NULL) {
+	if(fd == NULL || (card = new TCard()) == NULL) {
         return(NULL);
     }
 
@@ -361,12 +361,12 @@ TCard *TCardReader::FeedCard() {
         *cp = ' ';
     }
 
-    //  Finally, transfer the card image to the card object.
+	//  Finally, transfer the card image to the card object.
 
     for(i=0, cp=temp; i < 80; ++i, ++cp) {
-        card -> image[i] = *cp;
-    }
-    return(card);
+		card -> image[i] = *cp;
+	}
+	return(card);
 }
 
 //  Method to read one card column.  Returns BCD character as an integer, so
@@ -408,15 +408,15 @@ int TCardReader::DoInputColumn() {
     //  reader check light.
 
     assert(column > 0 && column <= 80);
-    ch = ReadBuffer -> image[column-1];
-    ++column;
+	ch = ReadBuffer -> image[column-1];
+	++column;
     if(BCD::BCDCheck(ch) < 0) {
         readerstatus |= IOCHDATACHECK;
         ready = false;
         FI1402 -> SetReaderCheck(true);
         FI1402 -> SetReaderValidity(true);
     }
-    ch = BCD::BCDConvert(ch);                       //  Invalid turns to alt b
+	ch = BCD::BCDConvert(ch);                       //  Invalid turns to alt b
     return(ch);
 }
 

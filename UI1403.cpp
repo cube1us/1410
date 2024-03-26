@@ -41,14 +41,14 @@ __fastcall TFI1403::TFI1403(TComponent* Owner)
     : TForm(Owner)
 {
     Width = 699;
-    Left = 260;
+    Left = 930;
     Top = 0;
     Height = 296;
     PrintPosition = 0;
     PrintData = false;
     Line = 1;
 
-   	WindowState = wsMinimized;
+   	// WindowState = wsMinimized;
 }
 //---------------------------------------------------------------------------
 

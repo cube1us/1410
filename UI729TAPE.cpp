@@ -44,9 +44,11 @@ __fastcall TFI729::TFI729(TComponent* Owner)
     int i;
 
     Height = 215;
-    Width = 400;
+	Width = 400;
+	Left = 930;
+    Top = 470;
 
-  	WindowState = wsMinimized;
+  	// WindowState = wsMinimized;
 
     current_unit = 0;
     current_channel = CHANNEL1;
