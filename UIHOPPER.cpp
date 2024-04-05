@@ -113,7 +113,7 @@ bool THopper::setFilename(String s) {
 	}
 
 	try {
-		fd = new TFileStream(s,fmCreate);
+		fd = new TFileStream(s,fmCreate | fmShareDenyWrite);
 	}
     catch(EFOpenError &e) {
         return(false);

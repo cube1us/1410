@@ -74,7 +74,8 @@ void __fastcall TF1410Debug::fileButtonClick(TObject *Sender)
 	if(FileOpenDialog -> Execute()) {
 		fileName = FileOpenDialog -> FileName;
 		try {
-			debugFd = new TFileStream(fileName, fmCreate | fmOpenWrite);
+			debugFd = new TFileStream(fileName, fmCreate | fmOpenWrite |
+				fmShareDenyWrite);
 		} catch (EFOpenError &e) {
 			debugFd = NULL;
 			DEBUG("Debug File Open: file open failed");

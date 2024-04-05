@@ -126,7 +126,7 @@ bool TTapeUnit::LoadRewind() {
     //  Open the file.  First try RW.  If that fails, try RO and set fileprot.
 
     try {
-        fd = new TFileStream(filename,fmOpenReadWrite);
+        fd = new TFileStream(filename,fmOpenReadWrite | fmShareDenyWrite);
         fileprotect = false;
     }
 

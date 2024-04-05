@@ -145,7 +145,7 @@ bool T1403Printer::FileCaptureOpen() {
 	if(FileName.Length() == 0) {
 		return(false);
 	}
-	fd = new TFileStream(FileName,fmCreate | fmOpenWrite);
+	fd = new TFileStream(FileName,fmCreate | fmOpenWrite | fmShareDenyWrite);
 	return(fd != NULL);
 }
 

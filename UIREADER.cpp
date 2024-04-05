@@ -436,7 +436,7 @@ bool TCardReader::LoadFile(String s) {
     }
 
     try {
-        fd = new TFileStream(s /* .c_str() */,fmOpenRead);
+        fd = new TFileStream(s /* .c_str() */,fmOpenRead | fmShareDenyWrite);
     }
     catch(EFOpenError &e) {
         return(false);
