@@ -179,7 +179,7 @@ void __fastcall TFI1403::CarriageTapeClick(TObject *Sender)
 
     if(FileCaptureDialog -> Execute()) {
         rc =  PrinterIODevice ->
-            SetCarriageTape(FileCaptureDialog -> FileName);
+			SetCarriageTape(FileCaptureDialog -> FileName);
         if(rc < 0) {
             DEBUG("Carriage Tape File Error, line %d",-rc);
         }

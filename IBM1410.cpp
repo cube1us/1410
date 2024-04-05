@@ -68,6 +68,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		// Application->CreateForm(__classid(TF1415L), &F1415L);
 		// Application->CreateForm(__classid(TFI14101), &FI14101);
 		Init1410();
+
 		Application->Run();
 	}
 	catch (Exception &exception)

@@ -34,7 +34,7 @@ __fastcall TF1415L::TF1415L(TComponent* Owner)
     Width = 599;
     Left = 0;
     Top = 251;
-    Height = 390; 
+    Height = 395;
 
 	// WindowState = wsMinimized;
 }

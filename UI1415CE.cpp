@@ -1,4 +1,4 @@
-/* 
+/*
  *  COPYRIGHT 1998, 1999, 2000, 2019 Jay R. Jaeger
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -41,9 +41,9 @@ __fastcall TFI1415CE::TFI1415CE(TComponent* Owner)
 	: TForm(Owner)
 {
     Height = 320;
-    Width = 600;
+    Width = 612;
 
-	WindowState = wsMinimized;
+	// WindowState = wsMinimized;
 
     AddressEntry -> ItemIndex = CPU -> ADDR_ENTRY_I;
     StorageScan -> ItemIndex = CPU -> SSCAN_OFF;
@@ -62,7 +62,12 @@ __fastcall TFI1415CE::TFI1415CE(TComponent* Owner)
     BitSense4 -> Checked = false;
     BitSense2 -> Checked = false;
     BitSense1 -> Checked = false;
-    BitSenseWM -> Checked = false;
+	BitSenseWM -> Checked = false;
+
+}
+
+void TFI1415CE::Minimize() {
+	WindowState = wsMinimized;
 }
 //---------------------------------------------------------------------------
 void __fastcall TFI1415CE::AddressEntryChange(TObject *Sender)

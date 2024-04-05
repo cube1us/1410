@@ -87,6 +87,7 @@ private:	// User declarations
     void SetSense(bool b,int i);
 public:		// User declarations
 	__fastcall TFI1415CE(TComponent* Owner);
+    void Minimize();
 };
 //---------------------------------------------------------------------------
 extern TFI1415CE *FI1415CE;

@@ -5,6 +5,7 @@
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 
 /* 
@@ -30,18 +31,27 @@
 
 #define DEBUG(string, ...) \
 	sprintf(F1410Debug->line,string, ##__VA_ARGS__);	\
-    F1410Debug -> DebugOut(F1410Debug -> line);
+	F1410Debug -> DebugOut(F1410Debug -> line);
 
 
 class TF1410Debug : public TForm
 {
 __published:	// IDE-managed Components
 	TMemo *Debug;
+	TButton *fileButton;
+	TLabel *fileNameLabel;
+	TOpenDialog *FileOpenDialog;
+	void __fastcall fileButtonClick(TObject *Sender);
 private:	// User declarations
+	String fileName;
+    TFileStream *debugFd;
+
 public:		// User declarations
 	__fastcall TF1410Debug(TComponent* Owner);
+    TF1410Debug();
     char line[256];
-    void DebugOut(char const *s);
+	void DebugOut(char const *s);
+    void Minimize();
 };
 //---------------------------------------------------------------------------
 extern TF1410Debug *F1410Debug;

@@ -34,6 +34,7 @@
 #include "UI1410DEBUG.h"
 #include "UI1410CPU.h"
 #include "UI1415IO.h"
+#include "UI1415CE.h"
 //---------------------------------------------------------------------------
 
 
@@ -51,8 +52,11 @@ void Init1410()
 	TRegister *TestA,*TestB;
     int a_temp,b_temp;
     char debug_msg[80];
-    bool quit_comparator_test = false;
- 
+	bool quit_comparator_test = false;
+
+	FI1415CE -> Minimize();
+	F1410Debug -> Minimize();
+
 	DEBUG("Creating CPU Object");
 
 	new T1410CPU;
