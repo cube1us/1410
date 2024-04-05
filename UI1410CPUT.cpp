@@ -1672,8 +1672,8 @@ void T1410CPU::DumpCore(String filename)
 	//	Then write out the integer array
 
 	// if(fwrite(&file_core,sizeof(int),STORAGE,fd) != STORAGE) {
-	if(fd -> Write(&file_core,STORAGE*sizeof(short int) !=
-			STORAGE*sizeof(short int))) {
+	if(fd -> Write(&file_core,STORAGE*sizeof(short int)) !=
+			STORAGE*sizeof(short int)) {
 		Application -> MessageBox(L"Error writing out core file.",
 			L"File Write Error",MB_OK);
 		// fclose(fd);
